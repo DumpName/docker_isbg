@@ -1,23 +1,40 @@
 #!/bin/bash
 
-cd /root
 if [ ! -f startup_done ]; then
+  mv /root/imapfilter/dkjson.lua /usr/share/lua/5.2/
+  mv /root/imapfilter/confLoader.lua /usr/share/lua/5.2/
+  mv /root/imapfilter/imapfilterSettings.lua /usr/share/lua/5.2/
   pyzor --homedir /etc/mail/spamassassin/ discover
-  razor-admin -home=/etc/mail/spamassassin/.razor -register
-  razor-admin -home=/etc/mail/spamassassin/.razor -create
-  razor-admin -home=/etc/mail/spamassassin/.razor -discover
+  echo "$CRON_MINUTE $CRON_HOUR * * *   root sa-update kill -HUP \`cat /var/run/spamd.pid\`" > /etc/cron.d/sa-update
+  #mkdir -p /var/run/dcc
+  #/var/dcc/libexec/dccifd -tREP,20 -tCMN,5, -llog -wwhiteclnt -Uuserdirs -SHELO -Smail_host -SSender -SList-ID
+  if [ ! -d /var/lib/spamassassin/accounts ]; then
+    mkdir /var/lib/spamassassin/accounts
+  fi
+  chown -R $USERNAME /var/lib/spamassassin
+  su $USERNAME bash -c"
+    cd ~$USERNAME
+    mkdir -p .razor .spamassassin .pyzor
+    razor-admin -discover
+    razor-admin -create -conf=razor-agent.conf
+    razor-admin -register -l
+    echo $PYZOR_SITE > .pyzor/servers
+    chmod g-rx,o-rx .pyzor .pyzor/servers"
+  echo 'OPTIONS="--allow-tell --create-prefs --max-children 5 --helper-home-dir=/var/lib/spamassassin --username=USERNAMETOUSE EXTRA_OPTIONS"' >> /etc/default/spamassassin
+  sed -i "s/USERNAMETOUSE/$USERNAME/" /etc/default/spamassassin
+  sed -i "s/EXTRA_OPTIONS/$EXTRA_OPTIONS/" /etc/default/spamassassin
   touch startup_done
 fi
 
 function learnSpam {
   echo "updating SpamAssassin rules"
   sa-update -v --refreshmirrors
-  /usr/bin/imapfilter -c /home/spamassassin/imapfilter/spamTrainer.lua
+  /usr/bin/imapfilter -c /root/imapfilter/spamTrainer.lua
   spamLearned=$(date +%Y%m%d)
 }
 
 function findSpam {
-  /usr/bin/imapfilter -c /home/spamassassin/imapfilter/spamFilter.lua
+  /usr/bin/imapfilter -c /root/imapfilter/spamFilter.lua
 }
 
 function main {
@@ -33,6 +50,7 @@ function main {
   done
 }
 
+rm -f /var/lib/spamassassin/.cache/isbg/lock
 
 echo "running sa-learn"
 sa-learn --force-expire

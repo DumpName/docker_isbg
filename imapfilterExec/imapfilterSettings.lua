@@ -1,6 +1,6 @@
 local settings = {}
 
-settings.configFolder = "/home/spamassassin/accounts/"
+settings.configFolder = "/var/lib/spamassassin/accounts/"
 settings.isbgPath = "isbg"
 
 return settings
