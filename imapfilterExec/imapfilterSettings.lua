@@ -1,6 +1,6 @@
 local settings = {}
 
-settings.configFolder = "/root/accounts/"
+settings.configFolder = "/var/lib/mailaccounts/"
 settings.isbgPath = "isbg"
 
 return settings

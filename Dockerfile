@@ -30,14 +30,16 @@ RUN apt-get -y update && \
      libmail-dkim-perl libnet-ident-perl make pyzor razor gpg gpg-agent python3 python3-pip \
      imapfilter=$IMAPFILTER_VERSION \
      spamassassin=$SPAMD_VERSION \
-     spamc=$SPAMC_VERSION \
-RUN  usermod --uid $SPAMD_UID $USERNAME --shell /bin/bash && \
+     spamc=$SPAMC_VERSION
+RUN  usermod --uid $SPAMD_UID $USERNAME && \
+     usermod --shell /bin/bash $USERNAME && \
+     usermod --home /var/lib/spamassassin $USERNAME && \
      mv /etc/mail/spamassassin/local.cf /etc/mail/spamassassin/local.cf-dist && \
 # Spamassassin daemon config
     rm -f /etc/default/spamassassin && echo "ENABLED=1" >> /etc/default/spamassassin
 # Install ISBG
 RUN python3 -m pip install isbg==$ISBG_VERSION && \
-    mkdir /root/imapfilter/ \
+    mkdir /root/imapfilter/
 # Configure Razor  \
 RUN sed -i 's/^logfile = .*$/logfile = \/dev\/stderr/g' \
      /etc/razor/razor-agent.conf
@@ -52,5 +54,5 @@ COPY imapfilterExec/* /root/imapfilter/
 
 COPY startup.sh /root/
 VOLUME ["/var/lib/spamassassin"]
-VOLUME ["/root/accounts"]
+VOLUME ["/var/lib/mailaccounts"]
 ENTRYPOINT ["/root/startup.sh"]
