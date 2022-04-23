@@ -8,8 +8,8 @@ if [ ! -f startup_done ]; then
   echo "$CRON_MINUTE $CRON_HOUR * * *   root sa-update kill -HUP \`cat /var/run/spamd.pid\`" > /etc/cron.d/sa-update
   #mkdir -p /var/run/dcc
   #/var/dcc/libexec/dccifd -tREP,20 -tCMN,5, -llog -wwhiteclnt -Uuserdirs -SHELO -Smail_host -SSender -SList-ID
-  if [ ! -d /var/lib/spamassassin/accounts ]; then
-    mkdir /var/lib/spamassassin/accounts
+  if [ ! -d /root/accounts ]; then
+    mkdir /home/accounts
   fi
   chown -R $USERNAME /var/lib/spamassassin
   su $USERNAME bash -c"
