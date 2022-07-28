@@ -56,7 +56,6 @@ Each account config file must follow the following directive (see .example file 
 The following Docker Environment Variables can be set:
 
 
-
 | Variable      | Default                | Description                          |
 | --------------- | ------------------------ | -------------------------------------- |
 | CRON_HOUR     | 1                      | hour for daily spam learning         |
