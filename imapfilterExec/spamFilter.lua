@@ -20,15 +20,15 @@ for i, confFile in ipairs( conftab ) do
 				print( "0 spams moved to learn" )		
 			end
 		end
-		local mailsToScan = 0
-		if ( confLoader.tableHasKey( config, "mailsToScan" ) ) then
-			mailsToScan = config.mailsToScan
-		end
+		batchSize = settings.default.batchSize.ham
+        if ( confLoader.tableHasKey( config, "batchSize" ) and confLoader.tableHasKey( config.batchSize, "ham" ) ) then
+            batchSize = config.batchSize.ham
+        end
 		local report = "--noreport"
 		if ( confLoader.tableHasKey( config, "report" ) and config.report=="yes") then
 			report = ""
 		end 
-		print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. "  --partialrun " .. mailsToScan .. " --maxsize 512000 " .. report .. " --delete --expunge --spaminbox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " --verbose \" $USERNAME" )
-		os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --spamc --imapuser " .. config.username .. " --partialrun " .. mailsToScan .. " --maxsize 512000 " .. report .. " --delete --expunge --spaminbox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " --verbose \" $USERNAME" )
+		print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. "  --partialrun " .. batchSize .. " --maxsize 512000 " .. report .. " --delete --expunge --spaminbox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " --verbose \" $USERNAME" )
+		os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --spamc --imapuser " .. config.username .. " --partialrun " .. batchSize .. " --maxsize 512000 " .. report .. " --delete --expunge --spaminbox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " --verbose \" $USERNAME" )
 	end
 end
