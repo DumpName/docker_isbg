@@ -24,6 +24,9 @@ if [ ! -f /root/currentState/startupDone ]; then
   echo 'OPTIONS="--allow-tell --create-prefs --max-children 5 --helper-home-dir=/var/lib/spamassassin --username=USERNAMETOUSE EXTRA_OPTIONS"' >> /etc/default/spamassassin
   sed -i "s/USERNAMETOUSE/$USERNAME/" /etc/default/spamassassin
   sed -i "s/EXTRA_OPTIONS/$EXTRA_OPTIONS/" /etc/default/spamassassin
+  #Clear old lock files
+  rm /var/lib/spamassassin/.cache/isbg/lock 2> /dev/null
+  rm /var/lib/spamassassin/.spamassassin/bayes.lock* 2> /dev/null
   touch /root/currentState/startupDone
 fi
 
@@ -52,11 +55,9 @@ function main {
       learnSpam
     fi
     findSpam
-    sleep $( ( 60 - 10#$(date +%S) ) )
+    sleep $(( 60 - 10#$(date +%S) ))
   done
 }
-
-rm -f /var/lib/spamassassin/.cache/isbg/lock
 
 echo "running sa-learn"
 sa-learn --force-expire
