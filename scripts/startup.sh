@@ -1,4 +1,5 @@
 #!/bin/bash
+
 mkdir /root/currentState
 if [ ! -f /root/currentState/startupDone ]; then
   mkdir -p /usr/share/lua/5.2/

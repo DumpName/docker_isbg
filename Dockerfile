@@ -62,5 +62,5 @@ RUN chmod +x /root/*.sh
 VOLUME ["/var/lib/spamassassin"]
 VOLUME ["/var/lib/mailaccounts"]
 ENTRYPOINT ["/root/startup.sh"]
-HEALTHCHECK --interval=1m --timeout=10s --start-period=1m \
+HEALTHCHECK --interval=1m --timeout=10s --start-period=5m \
     CMD /root/status.sh
