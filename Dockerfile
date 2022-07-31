@@ -57,6 +57,8 @@ RUN python3 -m pip cache purge && \
 COPY imapfilterExec/* /root/imapfilter/
 COPY spamassassinConf/* /usr/share/spamassassin/
 COPY scripts/* /root/
+RUN rm /usr/local/lib/python3.9/dist-packages/isbg/imaputils.py
+COPY imaputils.py /usr/local/lib/python3.9/dist-packages/isbg
 RUN chmod +x /root/*.sh
 
 VOLUME ["/var/lib/spamassassin"]
