@@ -15,11 +15,15 @@ if [ ! -f /root/currentState/startupDone ]; then
   fi
   chown -R $USERNAME /var/lib/spamassassin
   su $USERNAME bash -c"
+      cd ~$USERNAME
+      mkdir -p .razor .spamassassin .pyzor .dcc"
+  if [ ! -f /var/lib/spamassassin/.razor/identity ]; then
+    su $USERNAME razor-admin -register -l
+  fi
+  su $USERNAME bash -c"
     cd ~$USERNAME
-    mkdir -p .razor .spamassassin .pyzor
     razor-admin -discover
     razor-admin -create -conf=razor-agent.conf
-    razor-admin -register -l
     echo $PYZOR_SITE > .pyzor/servers
     chmod g-rx,o-rx .pyzor .pyzor/servers"
   echo 'OPTIONS="--allow-tell --create-prefs --max-children 5 --helper-home-dir=/var/lib/spamassassin --username=USERNAMETOUSE EXTRA_OPTIONS"' >> /etc/default/spamassassin

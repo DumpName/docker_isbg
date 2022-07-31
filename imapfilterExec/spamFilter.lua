@@ -13,7 +13,8 @@ for i, confFile in ipairs( conftab ) do
 			password = config.password,
 			ssl = "ssl3"
 		}
-        if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then verboseOption = "--verbose" else verboseOption = "" end
+        if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then verboseOption = " --verbose" else verboseOption = "" end
+        if( confLoader.tableHasKey( config, "isGmail" ) && config.isGmail ) then gmailOption = " --gmail" else gmailOption = "" end
         batchSize = os.getenv( "FILTER_BATCH_SIZE" )
         maxMailSize = os.getenv( "MAX_MAIL_SIZE" )
 		if ( confLoader.tableHasKey( config, "spamSubject" ) ) then
@@ -28,8 +29,8 @@ for i, confFile in ipairs( conftab ) do
 			report = ""
 		end
 		if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then
-            print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --spamc --imapuser " .. config.username .. "  --partialrun " .. batchSize .. " --maxsize " .. maxMailSize .." " .. report .. " --delete --expunge --spaminbox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )
+            print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --spamc --imapuser " .. config.username .. "  --partialrun " .. batchSize .. " --maxsize " .. maxMailSize .." " .. report .. " --delete --expunge --spaminbox " .. config.folders.spam .. " --passwdfilename " .. confFile .. verboseOption .. gmailOption ..  " \" $USERNAME" )
         end
-		os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --spamc --imapuser " .. config.username .. " --partialrun " .. batchSize .. " --maxsize " .. maxMailSize .." " .. report .. " --delete --expunge --spaminbox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )
+		os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --spamc --imapuser " .. config.username .. " --partialrun " .. batchSize .. " --maxsize " .. maxMailSize .." " .. report .. " --delete --expunge --spaminbox " .. config.folders.spam .. " --passwdfilename " .. confFile .. verboseOption .. gmailOption .. " \" $USERNAME" )
 	end
 end
