@@ -1,6 +1,6 @@
 # This is a Docker Image for the Tool isbg
 
-![Generic badge](https://img.shields.io/badge/user4711%2Fisbg-v0.4-yellow?style=for-the-badge)
+![Generic badge](https://img.shields.io/badge/user4711%2Fisbg-v0.5-yellow?style=for-the-badge)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/user4711/isbg/latest?style=for-the-badge)
 
 
@@ -26,6 +26,10 @@ The container runs a learning process on startup, so do not leave a configuratio
 [![Generic badge](https://img.shields.io/badge/docopt-0.6.2-brightgreen.svg?style=for-the-badge)](https://github.com/docopt/docopt)
 [![Generic badge](https://img.shields.io/badge/spamassassin-3.4.6--1-brightgreen.svg?style=for-the-badge)](https://spamassassin.apache.org/)
 [![Generic badge](https://img.shields.io/badge/spamc-3.4.6--1-brightgreen.svg?style=for-the-badge)](https://spamassassin.apache.org/)
+[![Generic badge](https://img.shields.io/badge/dcc-2.3.168-brightgreen.svg?style=for-the-badge)](https://www.dcc-servers.net/dcc/)
+[![Generic badge](https://img.shields.io/badge/pyzor-1.0.0--6-brightgreen.svg?style=for-the-badge)](https://www.pyzor.org/en/latest/index.html)
+[![Generic badge](https://img.shields.io/badge/razor-2.85--4.2+b7-brightgreen.svg?style=for-the-badge)](https://de.wikipedia.org/wiki/Vipul%E2%80%99s_Razor)
+
 
 ## Configuration:
 
@@ -36,6 +40,7 @@ Each account config file must follow the following directive (see .example file 
   "server": "mail.somewhere.com",
   "username": "somebody@somewhere.com",
   "password": "Password",
+  "isGmail": "no"                         //Optional; Default = no
   "spamSubject": "[SPAM?]",               //Optional;
   "report": "yes",                        //Optional; Default = no
   "spamLifetime": 30,                     //Optional;
@@ -47,6 +52,10 @@ Each account config file must follow the following directive (see .example file 
   }
 }
 ```
+- `isGmail`: Gmail has a few unique ways that they interact with a mail client. isbg
+  must be considered to be a client due to interacting with the Gmail servers
+  over IMAP, and thus, should conform to these special requirements for proper
+  integration.
 - `spamSubject`: Messages with this prefix will automaticaly sorted to spam without scoring them, usefull if your mailbox provider is offering this feature
 - `report`: Flag whether or not the `--noreport` for isbg should be set or not. yes = Flag is not set, no (Default) = Flag is set
 - `spamLifetime`: Duration in days after which the spam-messages in your spambox should be automatically deleted
