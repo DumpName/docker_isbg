@@ -16,32 +16,37 @@ for i, confFile in ipairs( conftab ) do
 			password = config.password,
 			ssl = "ssl3"
 		}
-		if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then verboseOption = "--verbose" else verboseOption = "" end
+		if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then verboseOption = " --verbose" else verboseOption = "" end
+		if( confLoader.tableHasKey( config, "isGmail" ) && config.isGmail ) then gmailOption = " --gmail" else gmailOption = "" end
 		batchSize = os.getenv( "SPAM_BATCH_SIZE" )
 		maxMailSize = os.getenv( "MAX_MAIL_SIZE" )
 		if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then
-            print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnspambox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )
+            print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnspambox " .. config.folders.spam .. " --passwdfilename " .. confFile .. verboseOption .. gmailOption .. " \" $USERNAME" )
 		end
-		os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun  " .. batchSize .. " --learnspambox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME"  )
+		os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun  " .. batchSize .. " --learnspambox " .. config.folders.spam .. " --passwdfilename " .. confFile  .. verboseOption .. gmailOption ..  " \" $USERNAME"  )
         batchSize = os.getenv( "HAM_BATCH_SIZE" )
         if ( confLoader.tableHasKey( config.folders, "ham" ) ) then
 			if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then
-                print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnhambox " .. config.folders.ham .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )
+                print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnhambox " .. config.folders.ham .. " --passwdfilename " .. confFile  .. verboseOption .. gmailOption ..  " \" $USERNAME" )
 			end
-			os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnhambox " .. config.folders.ham .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )
+			os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnhambox " .. config.folders.ham .. " --passwdfilename " .. confFile  .. verboseOption .. gmailOption ..  " \" $USERNAME" )
 			local hamMessages = imapObj[config.folders.ham]:select_all()
 			hamMessages:move_messages( imapObj.INBOX )
 			print( #hamMessages.." hams moved" )
 		end
 		if ( confLoader.tableHasKey( config.folders, "sent" ) ) then
             if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then
-                print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnhambox " .. config.folders.sent .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )
+                print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnhambox " .. config.folders.sent .. " --passwdfilename " .. confFile  .. verboseOption .. gmailOption ..  " \" $USERNAME" )
 			end
-			os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnhambox " .. config.folders.sent .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )
+			os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnhambox " .. config.folders.sent .. " --passwdfilename " .. confFile  .. verboseOption .. gmailOption ..  " \" $USERNAME" )
 		end
 		if ( confLoader.tableHasKey( config, "spamLifetime" ) ) then
 			local spamMessages = imapObj[config.folders.spam]:is_older( config.spamLifetime )
-			spamMessages:delete_messages( )
+			if( confLoader.tableHasKey( config, "isGmail" ) && config.isGmail ) then
+			    imapObj.INBOX:move_messages( imapObj["[Gmail]/Trash"], spamMessages )
+			else
+                spamMessages:delete_messages( )
+			end
 			print( #spamMessages.. " spams deletetd" )
 		end
 	end
