@@ -17,7 +17,7 @@ for i, confFile in ipairs( conftab ) do
 			ssl = "ssl3"
 		}
 		if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then verboseOption = " --verbose" else verboseOption = "" end
-		if( confLoader.tableHasKey( config, "isGmail" ) && config.isGmail ) then gmailOption = " --gmail" else gmailOption = "" end
+		if( confLoader.tableHasKey( config, "isGmail" ) and config.isGmail ) then gmailOption = " --gmail" else gmailOption = "" end
 		batchSize = os.getenv( "SPAM_BATCH_SIZE" )
 		maxMailSize = os.getenv( "MAX_MAIL_SIZE" )
 		if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then
@@ -42,7 +42,7 @@ for i, confFile in ipairs( conftab ) do
 		end
 		if ( confLoader.tableHasKey( config, "spamLifetime" ) ) then
 			local spamMessages = imapObj[config.folders.spam]:is_older( config.spamLifetime )
-			if( confLoader.tableHasKey( config, "isGmail" ) && config.isGmail ) then
+			if( confLoader.tableHasKey( config, "isGmail" ) and config.isGmail ) then
 			    imapObj.INBOX:move_messages( imapObj["[Gmail]/Trash"], spamMessages )
 			else
                 spamMessages:delete_messages( )

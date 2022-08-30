@@ -84,19 +84,30 @@ def new_message(body):
 
     """
     mail = None
+    try:
+        if isinstance(body, bytes):
+            mail = email.message_from_bytes(body)  # pylint: disable=no-member
+            if mail.as_bytes() in [b'', b'\n']:
+                raise TypeError(
+                    __("body '{}' cannot be empty.".format(repr(body))))
+            return mail
+    except UnicodeEncodeError:
+        body = body.decode("ascii", errors='replace')
+        mail = email.message_from_bytes(body)
+        if mail.as_bytes() in [b'', b'\n']:
+            raise TypeError(
+                __("body '{}' cannot be empty.".format(repr(body))))
+        return mail
 
-    if isinstance(body, bytes):
-        mail = email.message_from_bytes(body)  # pylint: disable=no-member
-    else:
-        try:
-            mail = email.message_from_string(body)
-        except UnicodeEncodeError:
-            body = body.encode("ascii", errors='replace')
-            mail = email.message_from_string(body)
+    try:
+        mail = email.message_from_string(body)
+    except UnicodeEncodeError:
+        body = body.encode("ascii", errors='replace')
+        mail = email.message_from_string(body)
     if mail.as_string() in ['', '\n']:
         raise TypeError(
             __("body '{}' cannot be empty.".format(repr(body))))
-        return mail
+    return mail
 
 
 def get_message(imap, uid, append_to=None, logger=None):

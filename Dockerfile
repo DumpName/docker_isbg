@@ -70,8 +70,8 @@ COPY imapfilterExec/* /root/imapfilter/
 COPY spamassassinConf/* /usr/share/spamassassin/
 COPY scripts/* /root/
 RUN rm /usr/local/lib/python3.9/dist-packages/isbg/imaputils.py
-COPY imaputils.py /usr/local/lib/python3.9/dist-packages/isbg
 RUN chmod +x /root/*.sh
+COPY isbg/* /usr/local/lib/python3.9/dist-packages/isbg/
 
 VOLUME ["/var/lib/spamassassin"]
 VOLUME ["/var/lib/mailaccounts"]
