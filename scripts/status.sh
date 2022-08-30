@@ -22,17 +22,17 @@ if [ -f /root/currentState/learningSpam ] || [ -f /root/currentState/searchingSp
     if [[ $DETAILED_LOGGING -eq "true" ]]; then
       >&2 echo "HELTHCHECK: No ISBG lockfile found"
     fi
-    exit 1;
+    exit 1
   fi
-  exit 0;
+  exit 0
 fi
 
 nextScheduledLearn=$(($(date -r /root/currentState/spamLearned +%s) + (24+2)*60*60 ))
 if [[ $(date +%s) -gt $nextScheduledLearn ]]; then
   if [[ $DETAILED_LOGGING -eq "true" ]]; then
-    >&2 echo "HELTHCHECK: No ISBG lockfile found"
+    >&2 echo "HELTHCHECK: No Spam training in last 26 Hours"
   fi
-  exit 1;
+  exit 1
 fi
 
 nextScheduledSearch=$(($(date -r /root/currentState/spamSearched +%s) + 60*3 ))
@@ -40,7 +40,7 @@ if [[ $(date +%s) -gt nextScheduledSearch ]]; then
   if [[ $DETAILED_LOGGING -eq "true" ]]; then
     >&2 echo "HELTHCHECK: No spam search in last 3 minutes"
   fi
-  exit 1;
+  exit 1
 fi
 
 exit 0;

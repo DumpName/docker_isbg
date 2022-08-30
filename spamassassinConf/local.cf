@@ -52,6 +52,10 @@ use_bayes 1
 bayes_auto_learn 1
 bayes_auto_learn_threshold_nonspam	-0.001
 bayes_auto_learn_threshold_spam		9.0
+score BAYES_00 -4
+score BAYES_05 -2
+score BAYES_95 6
+score BAYES_99 9
 
 #   Set headers which may provide inappropriate cues to the Bayesian
 #   classifier
