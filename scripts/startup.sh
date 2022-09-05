@@ -32,6 +32,8 @@ if [ ! -f /root/currentState/startupDone ]; then
   #Clear old lock files
   rm /var/lib/spamassassin/.cache/isbg/lock 2> /dev/null
   rm /var/lib/spamassassin/.spamassassin/bayes.lock* 2> /dev/null
+  #Create user config file if not existing
+  touch /var/lib/spamassassin/.spamassassin/user_prefs
   touch /root/currentState/startupDone
 fi
 
