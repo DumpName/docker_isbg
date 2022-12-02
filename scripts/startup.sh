@@ -36,6 +36,13 @@ if [ ! -f /root/currentState/startupDone ]; then
   touch /var/lib/spamassassin/.spamassassin/user_prefs
   touch /root/currentState/startupDone
 fi
+if [[ $LIST_FOLDERS == "true" ]] || [[ $LIST_FOLDERS == "only" ]]; then
+    /usr/bin/imapfilter -c /root/imapfilter/listFolders.lua
+    if [[ $LIST_FOLDERS -eq "only" ]]; then
+      exit 0
+    fi
+fi
+
 
 function learnSpam {
   touch /root/currentState/learningSpam

@@ -1,6 +1,6 @@
 # This is a Docker Image for the Tool isbg
 
-![Generic badge](https://img.shields.io/badge/user4711%2Fisbg-v0.6-yellow?style=for-the-badge)
+![Generic badge](https://img.shields.io/badge/user4711%2Fisbg-v0.7-yellow?style=for-the-badge)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/user4711/isbg/latest?style=for-the-badge)
 
 
@@ -67,18 +67,19 @@ Each account config file must follow the following directive (see .example file 
 The following Docker Environment Variables can be set:
 
 
-| Variable          | Default                | Description                                                |
-|-------------------|------------------------|------------------------------------------------------------|
-| CRON_HOUR         | 1                      | hour for daily spam learning                               |
-| CRON_MINUTE       | 30                     | minute for daily spam learning                             |
-| TZ                | UTC                    | time zone                                                  |
-| USERNAME          | debian-spamd           | username to run spammassin-deamon                          |
- | HAM_BATCH_SIZE    | 50                     | max amount of ham messages to learn per learning run       |
- | SPAM_BATCH_SIZE   | 50                     | max amount of spam messages to learn per learning run      |
- | FILTER_BATCH_SIZE | 50                     | max amount of messages to filter per run                   |
- | MAX_MAIL_SIZE     | 120000                 | mails bigger than this size will be skipped by SA. (BYTES) |
-| EXTRA_OPTIONS     | --nouser-config        | additional options for spamasssassin                       |
-| PYZOR_SITE        | public.pyzor.org:24441 | pyzor URI                                                  |
-| DETAILED_LOGGING  | false                  | enables verbose logging of isbg/SA                         |
+| Variable          | Default                | Description                                                                                                         |
+|-------------------|------------------------|---------------------------------------------------------------------------------------------------------------------|
+| CRON_HOUR         | 1                      | hour for daily spam learning                                                                                        |
+| CRON_MINUTE       | 30                     | minute for daily spam learning                                                                                      |
+| TZ                | UTC                    | time zone                                                                                                           |
+| USERNAME          | debian-spamd           | username to run spammassin-deamon                                                                                   |
+ | HAM_BATCH_SIZE    | 50                     | max amount of ham messages to learn per learning run                                                                |
+ | SPAM_BATCH_SIZE   | 50                     | max amount of spam messages to learn per learning run                                                               |
+ | FILTER_BATCH_SIZE | 50                     | max amount of messages to filter per run                                                                            |
+ | MAX_MAIL_SIZE     | 120000                 | mails bigger than this size will be skipped by SA. (BYTES)                                                          |
+| EXTRA_OPTIONS     | --nouser-config        | additional options for spamasssassin                                                                                |
+| PYZOR_SITE        | public.pyzor.org:24441 | pyzor URI                                                                                                           |
+| DETAILED_LOGGING  | false                  | enables verbose logging of isbg/SA                                                                                  |
+| LIST_FOLDERS      | false                  | Print list of mailboxes and folders on startup. Settings this to "only" will terminate the container after listing. |
 
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg?style=for-the-badge)](http://perso.crans.org/besson/LICENSE.html)

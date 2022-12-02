@@ -16,7 +16,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     USERNAME=debian-spamd \
     EXTRA_OPTIONS=--nouser-config \
     PYZOR_SITE=public.pyzor.org:24441 \
-    DETAILED_LOGGING="false"
+    DETAILED_LOGGING="false" \
+    LIST_FOLDERS="false"
 
 #Set Versions of used Software
 ARG SPAMC_VERSION=3.4.6-1
