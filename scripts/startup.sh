@@ -38,7 +38,7 @@ if [ ! -f /root/currentState/startupDone ]; then
 fi
 if [[ $LIST_FOLDERS == "true" ]] || [[ $LIST_FOLDERS == "only" ]]; then
     /usr/bin/imapfilter -c /root/imapfilter/listFolders.lua
-    if [[ $LIST_FOLDERS -eq "only" ]]; then
+    if [[ $LIST_FOLDERS == "only" ]]; then
       exit 0
     fi
 fi
