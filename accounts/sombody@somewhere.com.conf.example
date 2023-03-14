@@ -10,7 +10,6 @@
     	"filter": 50,
     	"hamLearn": 50,
     	"spamLearn": 50
-    },
 	"folders": {
 		"spam": "Spam",
 		"ham": "falsePositive",
