@@ -40,7 +40,7 @@ Each account config file must follow the following directive (see .example file 
   "server": "mail.somewhere.com",
   "username": "somebody@somewhere.com",
   "password": "Password",
-  "isGmail": "no"                         //Optional; Default = no
+  "isGmail": "no",                        //Optional; Default = no
   "spamSubject": "[SPAM?]",               //Optional;
   "report": "yes",                        //Optional; Default = no
   "spamLifetime": 30,                     //Optional;
