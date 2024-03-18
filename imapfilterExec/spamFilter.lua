@@ -14,7 +14,7 @@ for i, confFile in ipairs( conftab ) do
 			ssl = "ssl3"
 		}
         if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then verboseOption = " --verbose" else verboseOption = "" end
-        if( confLoader.tableHasKey( config, "isGmail" ) and config.isGmail ) then gmailOption = " --gmail" else gmailOption = "" end
+        if( confLoader.tableHasKey( config, "isGmail" ) and config.isGmail == "yes" ) then gmailOption = " --gmail" else gmailOption = "" end
         batchSize = os.getenv( "FILTER_BATCH_SIZE" )
         maxMailSize = os.getenv( "MAX_MAIL_SIZE" )
 		if ( confLoader.tableHasKey( config, "spamSubject" ) ) then
