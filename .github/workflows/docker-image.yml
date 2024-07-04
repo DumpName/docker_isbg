@@ -61,15 +61,6 @@ jobs:
       # This is used to complete the identity challenge
       # with sigstore/fulcio when running outside of PRs.
       id-token: write
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - linux/386
-          - linux/amd64
-          - linux/arm64
-          - linux/arm/v6
-          - linux/arm/v7
     steps:
       - name: Prepare
         run: |
@@ -117,7 +108,12 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          platforms: ${{ matrix.platform }}
+          platforms: |
+            linux/386
+            linux/amd64
+            linux/arm64
+            linux/arm/v6
+            linux/arm/v7
           cache-from: type=gha
           cache-to: type=gha,mode=max
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
