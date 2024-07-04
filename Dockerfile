@@ -21,8 +21,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LIST_FOLDERS="false"
 
 #Set Versions of used Software
-ARG SPAMC_VERSION=4.0.1-2
-ARG SPAMD_VERSION=4.0.1-2
+ARG SPAMC_VERSION=4.0.0-6
+ARG SPAMD_VERSION=4.0.0-6
 ARG DCC_VERSION=2.3.169
 ARG PYZOR_VERSION=1:1.0.0-6
 ARG RAZOR_VERSION=1:2.85-9
@@ -40,7 +40,7 @@ RUN apt-get -y update && \
         pyzor=$PYZOR_VERSION \
         razor=$RAZOR_VERSION \
         imapfilter=$IMAPFILTER_VERSION \
-        spamassassin=$SPAMD_VERSION \
+        spamd=$SPAMD_VERSION \
         spamc=$SPAMC_VERSION && \
     wget -O /root/dcc.tar.Z "https://www.dcc-servers.net/src/dcc/old/dcc-$DCC_VERSION.tar.Z" && \
     tar xfvz /root/dcc.tar.Z -C /root/ && \
@@ -53,7 +53,7 @@ RUN usermod --uid $SPAMD_UID $USERNAME && \
     usermod --home /var/lib/spamassassin $USERNAME && \
     rm /etc/mail/spamassassin/local.cf && \
 # Spamassassin daemon config
-    rm -f /etc/default/spamassassin && echo "ENABLED=1" >> /etc/default/spamassassin \
+    rm -f /etc/default/spamd && echo "ENABLED=1" >> /etc/default/spamd
 # Install ISBG
 RUN mkdir /usr/local/pythonVenv && \
     python3 -m venv /usr/local/pythonVenv && \

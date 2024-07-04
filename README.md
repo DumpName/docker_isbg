@@ -1,6 +1,6 @@
 # This is a Docker Image for the Tool isbg
 
-![Generic badge](https://img.shields.io/badge/user4711%2Fisbg-v0.7-yellow?style=for-the-badge)
+![Generic badge](https://img.shields.io/badge/user4711%2Fisbg-v1.0-brightgreen?style=for-the-badge)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/user4711/isbg/latest?style=for-the-badge)
 
 
@@ -22,13 +22,13 @@ The container runs a learning process on startup, so do not leave a configuratio
 
 [![Generic badge](https://img.shields.io/badge/debian-bullseye--slim-brightgreen.svg?style=for-the-badge)](https://hub.docker.com/_/debian)
 [![Generic badge](https://img.shields.io/badge/isbg-2.3.1-brightgreen.svg?style=for-the-badge)](https://gitlab.com/isbg/isbg)
-[![Generic badge](https://img.shields.io/badge/imapfilter-1:2.7.5--1-brightgreen.svg?style=for-the-badge)](https://github.com/lefcha/imapfilter)
+[![Generic badge](https://img.shields.io/badge/imapfilter-1:2.8.1--1-brightgreen.svg?style=for-the-badge)](https://github.com/lefcha/imapfilter)
 [![Generic badge](https://img.shields.io/badge/docopt-0.6.2-brightgreen.svg?style=for-the-badge)](https://github.com/docopt/docopt)
-[![Generic badge](https://img.shields.io/badge/spamassassin-3.4.6--1-brightgreen.svg?style=for-the-badge)](https://spamassassin.apache.org/)
-[![Generic badge](https://img.shields.io/badge/spamc-3.4.6--1-brightgreen.svg?style=for-the-badge)](https://spamassassin.apache.org/)
-[![Generic badge](https://img.shields.io/badge/dcc-2.3.168-brightgreen.svg?style=for-the-badge)](https://www.dcc-servers.net/dcc/)
+[![Generic badge](https://img.shields.io/badge/spamd-4.0.0--6-brightgreen.svg?style=for-the-badge)](https://spamassassin.apache.org/)
+[![Generic badge](https://img.shields.io/badge/spamc-4.0.0--6-brightgreen.svg?style=for-the-badge)](https://spamassassin.apache.org/)
+[![Generic badge](https://img.shields.io/badge/dcc-2.3.169-brightgreen.svg?style=for-the-badge)](https://www.dcc-servers.net/dcc/)
 [![Generic badge](https://img.shields.io/badge/pyzor-1.0.0--6-brightgreen.svg?style=for-the-badge)](https://www.pyzor.org/en/latest/index.html)
-[![Generic badge](https://img.shields.io/badge/razor-2.85--4.2+b7-brightgreen.svg?style=for-the-badge)](https://de.wikipedia.org/wiki/Vipul%E2%80%99s_Razor)
+[![Generic badge](https://img.shields.io/badge/razor-2.85--9-brightgreen.svg?style=for-the-badge)](https://de.wikipedia.org/wiki/Vipul%E2%80%99s_Razor)
 
 
 ## Configuration:
@@ -40,10 +40,12 @@ Each account config file must follow the following directive (see .example file 
   "server": "mail.somewhere.com",
   "username": "somebody@somewhere.com",
   "password": "Password",
+  "spamHandling": "yes"                   //Optional; Default = yes  
   "isGmail": "no",                        //Optional; Default = no
   "spamSubject": "[SPAM?]",               //Optional;
   "report": "yes",                        //Optional; Default = no
   "spamLifetime": 30,                     //Optional;
+  "mailLifetime": 30,                     //Optional;
   "folders": {
     "spam": "Spam",
     "ham": "ham",                         //Optional;
@@ -52,6 +54,7 @@ Each account config file must follow the following directive (see .example file 
   }
 }
 ```
+- `spamHandling`: This Flag defines if the given spam filter should be used on the account, e.g. if only old mails should be deleted
 - `isGmail`: Gmail has a few unique ways that they interact with a mail client. isbg
   must be considered to be a client due to interacting with the Gmail servers
   over IMAP, and thus, should conform to these special requirements for proper
@@ -59,6 +62,7 @@ Each account config file must follow the following directive (see .example file 
 - `spamSubject`: Messages with this prefix will automaticaly sorted to spam without scoring them, usefull if your mailbox provider is offering this feature
 - `report`: Flag whether or not the `--noreport` for isbg should be set or not. yes = Flag is not set, no (Default) = Flag is set
 - `spamLifetime`: Duration in days after which the spam-messages in your spambox should be automatically deleted
+- `mailLifetime`: Duration in days after which the INBOX-messages should be automatically deleted
 - `ham`: Ham folder where you can move wrong spam detections. Spamassassin will learn these in the next learning run as ham. Messages placed here will automaticaly be moved in your inbox after they have been learned
 - `sent`: Your mailbox for sent messages. Spamassassin will use this folder to learn ham messages.
 
