@@ -1,6 +1,7 @@
 #!/bin/bash
 
 mkdir /root/currentState
+source /usr/local/pythonVenv/bin/activate
 if [ ! -f /root/currentState/startupDone ]; then
   mkdir -p /usr/share/lua/5.2/
   mv /root/imapfilter/dkjson.lua /usr/share/lua/5.2/
