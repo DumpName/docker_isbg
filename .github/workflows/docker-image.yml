@@ -97,18 +97,8 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          flavor: |
-            latest=false
           images: |
             ${{ env.REGISTRY_IMAGE }}
-          tags: |
-            type=raw,value=dev,enable=${{ github.ref == 'refs/heads/dev' }}
-            type=semver,pattern=v{{ major }}.{{ minor }}.{{ patch }}-RC,value=${{ needs.release.outputs.nextVersion }},enable=${{ github.event_name == 'pull_request' }}
-            type=semver,pattern=v{{ major }}.{{ minor }}.{{ patch }},value=${{ needs.release.outputs.nextVersion }},priority=900,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-            type=semver,pattern=v{{ major }}.{{ minor }},value=${{ needs.release.outputs.nextVersion }},priority=901,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-            type=semver,pattern=v{{ major }},value=${{ needs.release.outputs.nextVersion }},priority=902,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-            type=raw,value=latest,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-            type=sha
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@v6
@@ -116,7 +106,6 @@ jobs:
           context: .
           push: true
           provenance: false
-          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: ${{ matrix.platform }}
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
@@ -165,7 +154,18 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY_IMAGE }}
+          flavor: |
+            latest=false
+          images: |
+            ${{ env.REGISTRY_IMAGE }}
+          tags: |
+            type=raw,value=dev,enable=${{ github.ref == 'refs/heads/dev' }}
+            type=semver,pattern=v{{ major }}.{{ minor }}.{{ patch }}-RC,value=${{ needs.release.outputs.nextVersion }},enable=${{ github.event_name == 'pull_request' }}
+            type=semver,pattern=v{{ major }}.{{ minor }}.{{ patch }},value=${{ needs.release.outputs.nextVersion }},priority=900,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+            type=semver,pattern=v{{ major }}.{{ minor }},value=${{ needs.release.outputs.nextVersion }},priority=901,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+            type=semver,pattern=v{{ major }},value=${{ needs.release.outputs.nextVersion }},priority=902,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+            type=raw,value=latest,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+            type=sha
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
