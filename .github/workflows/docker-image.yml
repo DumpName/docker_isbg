@@ -89,6 +89,7 @@ jobs:
     outputs:
       currentVersion: ${{ steps.semver.outputs.current }}
       nextVersion: ${{ steps.semver.outputs.next }}
+      nextStrict: ${{ steps.semver.outputs.nextStrict }}
     steps:
       - name: Checkout
         if: github.ref == 'refs/heads/main'
@@ -151,10 +152,10 @@ jobs:
             ${{ env.REGISTRY_IMAGE }}
           tags: |
             type=raw,value=dev,enable=${{ github.ref == 'refs/heads/dev' }}
-            type=semver,pattern=v{{ major }}.{{ minor }}.{{ patch }}-RC,value=${{ needs.release.outputs.nextVersion }},enable=${{ github.event_name == 'pull_request' }}
-            type=semver,pattern=v{{ major }}.{{ minor }}.{{ patch }},value=${{ needs.release.outputs.nextVersion }},priority=900,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-            type=semver,pattern=v{{ major }}.{{ minor }},value=${{ needs.release.outputs.nextVersion }},priority=901,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-            type=semver,pattern=v{{ major }},value=${{ needs.release.outputs.nextVersion }},priority=902,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+            type=semver,pattern=v{{ major }}.{{ minor }}.{{ patch }}-RC,value=${{ needs.release.outputs.nextStrict }},enable=${{ github.event_name == 'pull_request' }}
+            type=semver,pattern=v{{ major }}.{{ minor }}.{{ patch }},value=${{ needs.release.outputs.nextStrict }},priority=900,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+            type=semver,pattern=v{{ major }}.{{ minor }},value=${{ needs.release.outputs.nextStrict }},priority=901,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+            type=semver,pattern=v{{ major }},value=${{ needs.release.outputs.nextStrict }},priority=902,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
             type=raw,value=latest,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
             type=sha
 
