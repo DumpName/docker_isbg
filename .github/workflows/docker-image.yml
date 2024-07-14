@@ -23,7 +23,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: actions/checkout@v4
       - name: Get Next Version
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
         id: semver
         uses: ietf-tools/semver-action@v1
         with:
