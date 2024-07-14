@@ -67,6 +67,7 @@ bayes_auto_learn_threshold_spam		9.0
 #   Use Pyzor
 #
 use_pyzor 1
+pyzor_options --homedir=/var/lib/spamassassin/
 
 #   DCC Settings
 #
@@ -76,6 +77,10 @@ dcc_home /var/lib/spamassassin/.dcc
 dcc_timeout 8
 # If not using dccifd, dccproc is used
 dcc_path /usr/local/bin/dccproc
+
+#   Razor Settings
+use_razor2 1
+razor_config /etc/mail/spamassassin/.razor/razor-agent.conf
 
 #   Whether to decode non- UTF-8 and non-ASCII textual parts and recode
 #   them to UTF-8 before the text is given over to rules processing.
