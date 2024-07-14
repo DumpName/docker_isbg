@@ -5,8 +5,9 @@ conftab = confLoader.scandir( settings.configFolder )
 print ( "Spam Filter found " ..#conftab .." Config Files!" )
 
 for i, confFile in ipairs( conftab ) do
+	print( "Handling config file " ..i );
 	local config = confLoader.readConf( confFile )
-	if config ~= nil then
+	if ( config ~= nil and ( ( not confLoader.tableHasKey( config, "spamHandling" ) ) or config.spamHandling == "yes" ) ) then
 		local imapObj = IMAP {
 			server = config.server,
 			username = config.username,
