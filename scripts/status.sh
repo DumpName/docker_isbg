@@ -8,11 +8,11 @@ if [[ $DETAILED_LOGGING == "true" ]]; then
     >&2 echo "HELTHCHECK: DETAILED_LOGGING"
 fi
 
-service spamassassin status > /dev/null
+service spamd status > /dev/null
 
 if [[ $? -eq 1 ]]; then
   if [[ $DETAILED_LOGGING == "true" ]]; then
-    >&2 echo "HELTHCHECK: spamassassin stopped"
+    >&2 echo "HELTHCHECK: spamd stopped"
   fi
   exit 1
 fi
