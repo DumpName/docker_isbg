@@ -7,6 +7,7 @@ print ( "Found " ..#conftab .." Config Files!" )
 
 for i, confFile in ipairs( conftab ) do
 	local config = confLoader.readConf( confFile )
+	print( "Handling config file " ..i );
 	if config ~= nil then
 		local imapObj = IMAP {
 			server = config.server,
@@ -14,7 +15,7 @@ for i, confFile in ipairs( conftab ) do
 			password = config.password
 		}
 		mailboxes, folders = imapObj:list_all()
-		print("Mailbox "..#config.username.."@"..#config.server.." contains:")
+		print("Mailbox "..config.username.."@"..config.server.." contains:")
 		print("######MAILBOXES######")
 		for _, m in ipairs(mailboxes) do print(m) end
 		print("#######FOLDERS#######")
