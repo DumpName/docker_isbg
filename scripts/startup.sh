@@ -1,11 +1,11 @@
 #!/bin/bash
-
-if [ ! -f startup_done ]; then
+mkdir /root/currentState
+if [ ! -f /root/currentState/startupDone ]; then
   mkdir -p /usr/share/lua/5.2/
   mv /root/imapfilter/dkjson.lua /usr/share/lua/5.2/
   mv /root/imapfilter/confLoader.lua /usr/share/lua/5.2/
   mv /root/imapfilter/imapfilterSettings.lua /usr/share/lua/5.2/
-  pyzor --homedir /etc/mail/spamassassin/ discover
+  pyzor --homedir /var/lib/spamassassin/ discover
   echo "$CRON_MINUTE $CRON_HOUR * * *   root sa-update kill -HUP \`cat /var/run/spamd.pid\`" > /etc/cron.d/sa-update
   #mkdir -p /var/run/dcc
   #/var/dcc/libexec/dccifd -tREP,20 -tCMN,5, -llog -wwhiteclnt -Uuserdirs -SHELO -Smail_host -SSender -SList-ID
@@ -24,18 +24,23 @@ if [ ! -f startup_done ]; then
   echo 'OPTIONS="--allow-tell --create-prefs --max-children 5 --helper-home-dir=/var/lib/spamassassin --username=USERNAMETOUSE EXTRA_OPTIONS"' >> /etc/default/spamassassin
   sed -i "s/USERNAMETOUSE/$USERNAME/" /etc/default/spamassassin
   sed -i "s/EXTRA_OPTIONS/$EXTRA_OPTIONS/" /etc/default/spamassassin
-  touch startup_done
+  touch /root/currentState/startupDone
 fi
 
 function learnSpam {
+  touch /root/currentState/learningSpam
   echo "updating SpamAssassin rules"
   sa-update -v --refreshmirrors
   /usr/bin/imapfilter -c /root/imapfilter/spamTrainer.lua
-  spamLearned=$(date +%Y%m%d)
+  rm /root/currentState/learningSpam
+  touch /root/currentState/spamLearned
 }
 
 function findSpam {
+  touch /root/currentState/searchingSpam
   /usr/bin/imapfilter -c /root/imapfilter/spamFilter.lua
+  rm /root/currentState/searchingSpam
+  touch /root/currentState/spamSearched
 }
 
 function main {
@@ -43,11 +48,11 @@ function main {
   while true; do
     currentDay=$(date +%Y%m%d)
     currentTime=$(date +%H:%M)
-    if [[ $currentDay -ne $spamLearned ]] && [[ "$currentTime" > "03:00" ]] && [[ "$currentTime" < "04:00" ]]; then
+    if [[ $currentDay -ne $(date -r /root/currentState/spamLearned +%Y%m%d) ]] && [[ "$currentTime" > "03:00" ]] && [[ "$currentTime" < "04:00" ]]; then
       learnSpam
     fi
     findSpam
-    sleep $(( 60 - 10#$(date +%S) ))
+    sleep $( ( 60 - 10#$(date +%S) ) )
   done
 }
 

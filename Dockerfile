@@ -1,4 +1,5 @@
-FROM debian:bullseye-slim
+ARG ARCH=
+FROM ${ARCH}debian:bullseye-slim
 ARG BUILD_DATE
 ARG VCS_REF
 LABEL org.label-schema.build-date=$BUILD_DATE \
@@ -26,15 +27,15 @@ ARG SPAMD_UID=783
 #Install Dependencies
 RUN apt-get -y update && \
     apt-get -y --no-install-recommends install \
-     ca-certificates cron curl gcc libc6-dev libdbd-mysql-perl \
-     libmail-dkim-perl libnet-ident-perl make pyzor razor gpg gpg-agent python3 python3-pip \
-     imapfilter=$IMAPFILTER_VERSION \
-     spamassassin=$SPAMD_VERSION \
-     spamc=$SPAMC_VERSION
-RUN  usermod --uid $SPAMD_UID $USERNAME && \
-     usermod --shell /bin/bash $USERNAME && \
-     usermod --home /var/lib/spamassassin $USERNAME && \
-     mv /etc/mail/spamassassin/local.cf /etc/mail/spamassassin/local.cf-dist && \
+        ca-certificates cron curl gcc libc6-dev libdbd-mysql-perl \
+        libmail-dkim-perl libnet-ident-perl make pyzor razor gpg gpg-agent python3 python3-pip \
+        imapfilter=$IMAPFILTER_VERSION \
+        spamassassin=$SPAMD_VERSION \
+        spamc=$SPAMC_VERSION
+RUN usermod --uid $SPAMD_UID $USERNAME && \
+    usermod --shell /bin/bash $USERNAME && \
+    usermod --home /var/lib/spamassassin $USERNAME && \
+    rm /etc/mail/spamassassin/local.cf && \
 # Spamassassin daemon config
     rm -f /etc/default/spamassassin && echo "ENABLED=1" >> /etc/default/spamassassin
 # Install ISBG
@@ -50,9 +51,13 @@ RUN python3 -m pip cache purge && \
     apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/log/* && \
     rm -rf /root/.cache/*
 # add imapfilter files
-COPY imapfilterExec/* /root/imapfilter/   
+COPY imapfilterExec/* /root/imapfilter/
+COPY spamassassinConf/* /usr/share/spamassassin/
+COPY scripts/* /root/
+RUN chmod +x /root/*.sh
 
-COPY startup.sh /root/
 VOLUME ["/var/lib/spamassassin"]
 VOLUME ["/var/lib/mailaccounts"]
 ENTRYPOINT ["/root/startup.sh"]
+HEALTHCHECK --interval=1m --timeout=10s --start-period=1m \
+    CMD /root/status.sh
