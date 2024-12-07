@@ -16,26 +16,28 @@ for i, confFile in ipairs( conftab ) do
 			password = config.password,
 			ssl = "ssl3"
 		}
-		batchSize = settings.default.batchSize.spam
-		if ( confLoader.tableHasKey( config, "batchSize" ) and confLoader.tableHasKey( config.batchSize, "spam" ) ) then
-            batchSize = config.batchSize.spam
-        end
-		print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize 512000 --partialrun " .. batchSize .. " --learnspambox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " --verbose \" $USERNAME" )
-		os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize 512000 --partialrun  " .. batchSize .. " --learnspambox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " --verbose \" $USERNAME"  )
-        batchSize = settings.default.batchSize.ham
-		if ( confLoader.tableHasKey( config, "batchSize" ) and confLoader.tableHasKey( config.batchSize, "ham" ) ) then
-            batchSize = config.batchSize.ham
-        end
+		if( os.getenv( "DETAILED_LOGGING" ) ) then verboseOption = "--verbose" else verboseOption = "" end
+		batchSize = os.getenv( "SPAM_BATCH_SIZE" )
+		maxMailSize = os.getenv( "MAX_MAIL_SIZE" )
+		if( os.getenv( "DETAILED_LOGGING" ) ) then
+            print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnspambox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )
+		end
+		os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun  " .. batchSize .. " --learnspambox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME"  )
+        batchSize = os.getenv( "HAM_BATCH_SIZE" )
         if ( confLoader.tableHasKey( config.folders, "ham" ) ) then
-			print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize 512000 --partialrun " .. batchSize .. " --learnhambox " .. config.folders.ham .. " --passwdfilename " .. confFile .. " --verbose \" $USERNAME" )
-			os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize 512000 --partialrun " .. batchSize .. " --learnhambox " .. config.folders.ham .. " --passwdfilename " .. confFile .. " --verbose \" $USERNAME" )
+			if( os.getenv( "DETAILED_LOGGING" ) ) then
+                print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnhambox " .. config.folders.ham .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )
+			end
+			os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnhambox " .. config.folders.ham .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )
 			local hamMessages = imapObj[config.folders.ham]:select_all()
 			hamMessages:move_messages( imapObj.INBOX )
 			print( #hamMessages.." hams moved" )
 		end
 		if ( confLoader.tableHasKey( config.folders, "sent" ) ) then
-			print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --partialrun " .. batchSize .. " --learnhambox " .. config.folders.sent .. " --passwdfilename " .. confFile .. " --verbose \" $USERNAME" )
-			os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --partialrun " .. batchSize .. " --learnhambox " .. config.folders.sent .. " --passwdfilename " .. confFile .. " --verbose \" $USERNAME" )
+            if( os.getenv( "DETAILED_LOGGING" ) ) then
+                print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnhambox " .. config.folders.sent .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )
+			end
+			os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnhambox " .. config.folders.sent .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )
 		end
 		if ( confLoader.tableHasKey( config, "spamLifetime" ) ) then
 			local spamMessages = imapObj[config.folders.spam]:is_older( config.spamLifetime )

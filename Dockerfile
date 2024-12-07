@@ -11,9 +11,12 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 ENV DEBIAN_FRONTEND=noninteractive \
     TZ=UTC \
     CRON_HOUR=1 CRON_MINUTE=30 \
+    HAM_BATCH_SIZE=50 SPAM_BATCH_SIZE=50 FILTER_BATCH_SIZE=50 \
+    MAX_MAIL_SIZE=120000 \
     USERNAME=debian-spamd \
     EXTRA_OPTIONS=--nouser-config \
-    PYZOR_SITE=public.pyzor.org:24441
+    PYZOR_SITE=public.pyzor.org:24441 \
+    DETAILED_LOGGING=false
 
 #Set Versions of used Software
 ARG SPAMC_VERSION=3.4.6-1
