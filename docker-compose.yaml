@@ -1,0 +1,15 @@
+services:
+  docker_isbg:
+    image: user4711/isbg:latest
+    environment:
+      TZ: Europe/Berlin
+      CRON_HOUR: 1
+      CRON_MINUTE: 30
+      HAM_BATCH_SIZE: 50
+      SPAM_BATCH_SIZE: 200
+      FILTER_BATCH_SIZE: 50
+      DETAILED_LOGGING: "false"
+      LIST_FOLDERS: "false"
+    volumes:
+      - ./spamassassinVol:/var/lib/spamassassin
+      - ./accounts:/var/lib/mailaccounts:ro
