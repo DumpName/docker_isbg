@@ -1,6 +1,8 @@
-local confLoader = require "confLoader"
+confLoader = require "confLoader"
+settings = require "imapfilterSettings"
 
-conftab = confLoader.scandir( "~/isbg-config/" )
+
+conftab = confLoader.scandir( settings.configFolder )
 print ( "Found " ..#conftab .." Config Files!" )
 
 for i, confFile in ipairs( conftab ) do

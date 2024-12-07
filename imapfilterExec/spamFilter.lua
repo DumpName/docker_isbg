@@ -18,8 +18,8 @@ for i, confFile in ipairs( conftab ) do
         batchSize = os.getenv( "FILTER_BATCH_SIZE" )
         maxMailSize = os.getenv( "MAX_MAIL_SIZE" )
 		if ( confLoader.tableHasKey( config, "spamSubject" ) ) then
-			local spamMessages = imapObj.INBOX:contain_subject( config.spamSubject )
-			imapObj.INBOX:move_messages( imapObj[config.folders.spam], spamMessages )
+			local spamMessages = imapObj[config.folders.inbox]:contain_subject( config.spamSubject )
+			imapObj[config.folders.inbox]:move_messages( imapObj[config.folders.spam], spamMessages )
 			if (spamMessages==nil)or(#spamMessages==0) then
 				print( "0 spams moved to learn" )		
 			end

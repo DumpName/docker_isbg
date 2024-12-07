@@ -31,7 +31,7 @@ for i, confFile in ipairs( conftab ) do
 			end
 			os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnhambox " .. config.folders.ham .. " --passwdfilename " .. confFile  .. verboseOption .. gmailOption ..  " \" $USERNAME" )
 			local hamMessages = imapObj[config.folders.ham]:select_all()
-			hamMessages:move_messages( imapObj.INBOX )
+			hamMessages:move_messages( imapObj[config.folders.inbox] )
 			print( #hamMessages.." hams moved" )
 		end
 		if ( confLoader.tableHasKey( config.folders, "sent" ) ) then
@@ -43,7 +43,7 @@ for i, confFile in ipairs( conftab ) do
 		if ( confLoader.tableHasKey( config, "spamLifetime" ) ) then
 			local spamMessages = imapObj[config.folders.spam]:is_older( config.spamLifetime )
 			if( confLoader.tableHasKey( config, "isGmail" ) and config.isGmail ) then
-			    imapObj.INBOX:move_messages( imapObj["[Gmail]/Trash"], spamMessages )
+			    imapObj[config.folders.inbox]:move_messages( imapObj["[Gmail]/Trash"], spamMessages )
 			else
                 spamMessages:delete_messages( )
 			end
