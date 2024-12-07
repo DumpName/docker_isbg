@@ -1,5 +1,5 @@
 FROM debian:bullseye-slim
-
+MAINTAINER Christian Hillebrand
 ARG BUILD_DATE
 ARG VCS_REF
 LABEL org.label-schema.build-date=$BUILD_DATE \
