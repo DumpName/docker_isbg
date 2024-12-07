@@ -1,0 +1,15 @@
+{
+	"server": "mail.somewhere.com",
+	"username": "somebody@somewhere.com",
+	"password": "Password",
+	"spamSubject": "[SPAM?]",
+	"mailsToScan": 50,
+	"report": "yes",
+	"spamLifetime": 30,
+	"folders": {
+		"spam": "Spam",
+		"ham": "falsePositive",
+		"sent": "Sent",
+		"inbox": "INBOX"
+	}
+}

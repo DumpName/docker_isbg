@@ -1,0 +1,9 @@
+/var/log/isbg.log {
+	rotate 7
+	daily
+	nocompress
+	missingok
+	nomail
+	notifempty
+	create
+}
