@@ -6,9 +6,9 @@ The Docker Image is based on [Debians slim Stable Image](https://hub.docker.com/
 Configuration: There are 2 volumes, their content is initialized during container startup:
 
 - `/var/lib/spamassassin/` : holds the SpamAssassin data files, to keep them between container resets.
-- `/root/accounts` : holds the IMAP accounts configuration.
+- `/var/lib/mailaccounts` : holds the IMAP accounts configuration.
 
-To configure your IMAP accounts, create a new .conf file in the `/root/accounts` volume for each IMAP account that you want to be filtered. The files are JSON files, see the example below to learn about mandatory and optional parameters.
+To configure your IMAP accounts, create a new .conf file in the `/var/lib/mailaccounts` volume for each IMAP account that you want to be filtered. The files are JSON files, see the example below to learn about mandatory and optional parameters.
 
 The container runs a learning process on startup, so do not leave a configuration with a huge email directory active if you want the container to start in a reasonnable time.
 

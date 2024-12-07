@@ -1,6 +1,7 @@
 #!/bin/bash
 
 if [ ! -f startup_done ]; then
+  mkdir -p /usr/share/lua/5.2/
   mv /root/imapfilter/dkjson.lua /usr/share/lua/5.2/
   mv /root/imapfilter/confLoader.lua /usr/share/lua/5.2/
   mv /root/imapfilter/imapfilterSettings.lua /usr/share/lua/5.2/
@@ -8,8 +9,8 @@ if [ ! -f startup_done ]; then
   echo "$CRON_MINUTE $CRON_HOUR * * *   root sa-update kill -HUP \`cat /var/run/spamd.pid\`" > /etc/cron.d/sa-update
   #mkdir -p /var/run/dcc
   #/var/dcc/libexec/dccifd -tREP,20 -tCMN,5, -llog -wwhiteclnt -Uuserdirs -SHELO -Smail_host -SSender -SList-ID
-  if [ ! -d /root/accounts ]; then
-    mkdir /home/accounts
+  if [ ! -d /var/lib/mailaccounts ]; then
+    mkdir /var/lib/mailaccounts
   fi
   chown -R $USERNAME /var/lib/spamassassin
   su $USERNAME bash -c"
