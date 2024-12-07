@@ -62,6 +62,9 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: ${{ matrix.platform }}
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          github-token: ${{ github.token }}
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
       # repository is public to avoid leaking data.  If you would like to publish
