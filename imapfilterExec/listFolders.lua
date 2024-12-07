@@ -13,6 +13,7 @@ for i, confFile in ipairs( conftab ) do
 			server = config.server,
 			username = config.username,
 			password = config.password
+			ssl = "ssl3"
 		}
 		mailboxes, folders = imapObj:list_all()
 		print("Mailbox "..config.username.."@"..config.server.." contains:")
