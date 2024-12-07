@@ -16,16 +16,16 @@ for i, confFile in ipairs( conftab ) do
 			password = config.password,
 			ssl = "ssl3"
 		}
-		if( os.getenv( "DETAILED_LOGGING" ) ) then verboseOption = "--verbose" else verboseOption = "" end
+		if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then verboseOption = "--verbose" else verboseOption = "" end
 		batchSize = os.getenv( "SPAM_BATCH_SIZE" )
 		maxMailSize = os.getenv( "MAX_MAIL_SIZE" )
-		if( os.getenv( "DETAILED_LOGGING" ) ) then
+		if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then
             print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnspambox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )
 		end
 		os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun  " .. batchSize .. " --learnspambox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME"  )
         batchSize = os.getenv( "HAM_BATCH_SIZE" )
         if ( confLoader.tableHasKey( config.folders, "ham" ) ) then
-			if( os.getenv( "DETAILED_LOGGING" ) ) then
+			if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then
                 print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnhambox " .. config.folders.ham .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )
 			end
 			os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnhambox " .. config.folders.ham .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )
@@ -34,7 +34,7 @@ for i, confFile in ipairs( conftab ) do
 			print( #hamMessages.." hams moved" )
 		end
 		if ( confLoader.tableHasKey( config.folders, "sent" ) ) then
-            if( os.getenv( "DETAILED_LOGGING" ) ) then
+            if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then
                 print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnhambox " .. config.folders.sent .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )
 			end
 			os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. " --spamc --teachonly --maxsize " .. maxMailSize .. " --partialrun " .. batchSize .. " --learnhambox " .. config.folders.sent .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )

@@ -13,7 +13,7 @@ for i, confFile in ipairs( conftab ) do
 			password = config.password,
 			ssl = "ssl3"
 		}
-        if( os.getenv( "DETAILED_LOGGING" ) ) then verboseOption = "--verbose" else verboseOption = "" end
+        if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then verboseOption = "--verbose" else verboseOption = "" end
         batchSize = os.getenv( "FILTER_BATCH_SIZE" )
         maxMailSize = os.getenv( "MAX_MAIL_SIZE" )
 		if ( confLoader.tableHasKey( config, "spamSubject" ) ) then
@@ -27,7 +27,7 @@ for i, confFile in ipairs( conftab ) do
 		if ( confLoader.tableHasKey( config, "report" ) and config.report=="yes") then
 			report = ""
 		end
-		if( os.getenv( "DETAILED_LOGGING" ) ) then
+		if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then
             print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --spamc --imapuser " .. config.username .. "  --partialrun " .. batchSize .. " --maxsize " .. maxMailSize .." " .. report .. " --delete --expunge --spaminbox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )
         end
 		os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --spamc --imapuser " .. config.username .. " --partialrun " .. batchSize .. " --maxsize " .. maxMailSize .." " .. report .. " --delete --expunge --spaminbox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " " .. verboseOption .. " \" $USERNAME" )
