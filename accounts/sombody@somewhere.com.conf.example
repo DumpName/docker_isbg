@@ -6,6 +6,11 @@
 	"mailsToScan": 50,
 	"report": "yes",
 	"spamLifetime": 30,
+	"batchSize": {
+    	"filter": 50,
+    	"hamLearn": 50,
+    	"spamLearn": 50
+    },
 	"folders": {
 		"spam": "Spam",
 		"ham": "falsePositive",
