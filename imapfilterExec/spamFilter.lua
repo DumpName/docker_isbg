@@ -28,7 +28,7 @@ for i, confFile in ipairs( conftab ) do
 		if ( confLoader.tableHasKey( config, "report" ) and config.report=="yes") then
 			report = ""
 		end 
-		print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. "  --partialrun " .. mailsToScan .. " --maxsize 512000 " .. report .. " --delete --expunge --spaminbox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " --verbose \" spamassassin" )
-		os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --spamc --imapuser " .. config.username .. " --partialrun " .. mailsToScan .. " --maxsize 512000 " .. report .. " --delete --expunge --spaminbox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " --verbose \" spamassassin" )
+		print( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --imapuser " .. config.username .. "  --partialrun " .. mailsToScan .. " --maxsize 512000 " .. report .. " --delete --expunge --spaminbox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " --verbose \" $USERNAME" )
+		os.execute( "su -c \"" .. settings.isbgPath .. " --imaphost " .. config.server .. " --spamc --imapuser " .. config.username .. " --partialrun " .. mailsToScan .. " --maxsize 512000 " .. report .. " --delete --expunge --spaminbox " .. config.folders.spam .. " --passwdfilename " .. confFile .. " --verbose \" $USERNAME" )
 	end
 end
