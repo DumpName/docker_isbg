@@ -2,14 +2,16 @@
 	"server": "mail.somewhere.com",
 	"username": "somebody@somewhere.com",
 	"password": "Password",
+    "spamHandling": "yes",
 	"isGmail": "no",
 	"spamSubject": "[SPAM?]",
 	"report": "yes",
 	"spamLifetime": 30,
+	"mailLifetime": 30,
 	"folders": {
+        "inbox": "INBOX",
 		"spam": "Spam",
-		"ham": "falsePositive",
 		"sent": "Sent",
-		"inbox": "INBOX"
+		"ham": "falsePositive"
 	}
 }

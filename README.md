@@ -33,38 +33,24 @@ The container runs a learning process on startup, so do not leave a configuratio
 
 ## Configuration:
 
-Each account config file must follow the following directive (see .example file in accounts folder):
+Each account config file must be a valid json file like the .example file located in /accounts/.
+The following configurations are supported:
 
-```
-{
-  "server": "mail.somewhere.com",
-  "username": "somebody@somewhere.com",
-  "password": "Password",
-  "spamHandling": "yes"                   //Optional; Default = yes  
-  "isGmail": "no",                        //Optional; Default = no
-  "spamSubject": "[SPAM?]",               //Optional;
-  "report": "yes",                        //Optional; Default = no
-  "spamLifetime": 30,                     //Optional;
-  "mailLifetime": 30,                     //Optional;
-  "folders": {
-    "spam": "Spam",
-    "ham": "ham",                         //Optional;
-    "sent": "Sent",                       //Optional;
-    "inbox": "INBOX"
-  }
-}
-```
-- `spamHandling`: This Flag defines if the given spam filter should be used on the account, e.g. if only old mails should be deleted
-- `isGmail`: Gmail has a few unique ways that they interact with a mail client. isbg
-  must be considered to be a client due to interacting with the Gmail servers
-  over IMAP, and thus, should conform to these special requirements for proper
-  integration.
-- `spamSubject`: Messages with this prefix will automaticaly sorted to spam without scoring them, usefull if your mailbox provider is offering this feature
-- `report`: Flag whether or not the `--noreport` for isbg should be set or not. yes = Flag is not set, no (Default) = Flag is set
-- `spamLifetime`: Duration in days after which the spam-messages in your spambox should be automatically deleted
-- `mailLifetime`: Duration in days after which the INBOX-messages should be automatically deleted
-- `ham`: Ham folder where you can move wrong spam detections. Spamassassin will learn these in the next learning run as ham. Messages placed here will automaticaly be moved in your inbox after they have been learned
-- `sent`: Your mailbox for sent messages. Spamassassin will use this folder to learn ham messages.
+| Variable      | Req. / Opt. | Default | Description                                                                                                                                                                                                                                   |
+|---------------|-------------|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| server        | required    |         | Your mail server address                                                                                                                                                                                                                      |
+| username      | required    |         | your username for logging into your mailaccount                                                                                                                                                                                               |
+| password      | required    |         | your password for logging in                                                                                                                                                                                                                  |
+| spamHandling  | optional    | yes     | This Flag defines if the given spam filter should be used on the account, e.g. if only old mails should be deleted                                                                                                                            |
+| isGmail       | optional    | no      | Gmail has a few unique ways that they interact with a mail client. isbg must be considered to be a client due to interacting with the Gmail servers over IMAP, and thus, should conform to these special requirements for proper integration. |
+| spamSubject   | optional    |         | Messages with this prefix will automatically sorted to spam without scoring them, useful if your mailbox provider is offering this feature                                                                                                    |
+| report        | optional    | no      | Flag whether or not the `--noreport` for isbg should be set or not. yes = Flag is not set, no (Default) = Flag is set                                                                                                                         |
+| spamLifetime  | optional    |         | Duration in days after which the spam-messages in your spambox should be automatically deleted                                                                                                                                                |
+| mailLifetime  | optional    |         | Duration in days after which the INBOX-messages should be automatically deleted                                                                                                                                                               |
+| folders.inbox | required    |         | Name of your inbox folder / mailbox. You might want to run the container with `LIST_FOLDERS` set to either `true` or `only` first to identify this.                                                                                           |
+| folders.spam  | required    |         | Name of your spam folder.                                                                                                                                                                                                                     |
+| folders.ham   | optional    |         | Ham folder where you can move wrong spam detections. Spamassassin will learn these in the next learning run as ham. Messages placed here will automatically be moved in your inbox after they have been learned.                              |
+| folders.sent  | optional    |         | Your mailbox for sent messages. Spamassassin will use this folder to learn ham messages.                                                                                                                                                      |
 
 ## Variables:
 
@@ -77,10 +63,10 @@ The following Docker Environment Variables can be set:
 | CRON_MINUTE       | 30                     | minute for daily spam learning                                                                                      |
 | TZ                | UTC                    | time zone                                                                                                           |
 | USERNAME          | debian-spamd           | username to run spammassin-deamon                                                                                   |
- | HAM_BATCH_SIZE    | 50                     | max amount of ham messages to learn per learning run                                                                |
- | SPAM_BATCH_SIZE   | 50                     | max amount of spam messages to learn per learning run                                                               |
- | FILTER_BATCH_SIZE | 50                     | max amount of messages to filter per run                                                                            |
- | MAX_MAIL_SIZE     | 120000                 | mails bigger than this size will be skipped by SA. (BYTES)                                                          |
+| HAM_BATCH_SIZE    | 50                     | max amount of ham messages to learn per learning run                                                                |
+| SPAM_BATCH_SIZE   | 50                     | max amount of spam messages to learn per learning run                                                               |
+| FILTER_BATCH_SIZE | 50                     | max amount of messages to filter per run                                                                            |
+| MAX_MAIL_SIZE     | 120000                 | mails bigger than this size will be skipped by SA. (BYTES)                                                          |
 | EXTRA_OPTIONS     | --nouser-config        | additional options for spamasssassin                                                                                |
 | PYZOR_SITE        | public.pyzor.org:24441 | pyzor URI                                                                                                           |
 | DETAILED_LOGGING  | false                  | enables verbose logging of isbg/SA                                                                                  |
