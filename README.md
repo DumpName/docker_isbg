@@ -63,10 +63,10 @@ The following Docker Environment Variables can be set:
 | CRON_MINUTE       | 30                     | minute for daily spam learning                                                                                      |
 | TZ                | UTC                    | time zone                                                                                                           |
 | USERNAME          | debian-spamd           | username to run spammassin-deamon                                                                                   |
- | HAM_BATCH_SIZE    | 50                     | max amount of ham messages to learn per learning run                                                                |
- | SPAM_BATCH_SIZE   | 50                     | max amount of spam messages to learn per learning run                                                               |
- | FILTER_BATCH_SIZE | 50                     | max amount of messages to filter per run                                                                            |
- | MAX_MAIL_SIZE     | 120000                 | mails bigger than this size will be skipped by SA. (BYTES)                                                          |
+| HAM_BATCH_SIZE    | 50                     | max amount of ham messages to learn per learning run                                                                |
+| SPAM_BATCH_SIZE   | 50                     | max amount of spam messages to learn per learning run                                                               |
+| FILTER_BATCH_SIZE | 50                     | max amount of messages to filter per run                                                                            |
+| MAX_MAIL_SIZE     | 120000                 | mails bigger than this size will be skipped by SA. (BYTES)                                                          |
 | EXTRA_OPTIONS     | --nouser-config        | additional options for spamasssassin                                                                                |
 | PYZOR_SITE        | public.pyzor.org:24441 | pyzor URI                                                                                                           |
 | DETAILED_LOGGING  | false                  | enables verbose logging of isbg/SA                                                                                  |

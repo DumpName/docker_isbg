@@ -31,12 +31,15 @@ ARG ISBG_VERSION=2.3.1
 ARG DOCPOT_VERSION=0.6.2
 ARG ISBG_SHA=c51ac52864f8275d9db6bf106b0b9aa850216dc4b059e58e069f07206aeac78b
 ARG SPAMD_UID=783
+ARG PYTHON_VERSION=3.11.2-1+b1
 
 #Install Dependencies
 RUN apt-get -y update && \
     apt-get -y --no-install-recommends install \
         wget ca-certificates cron curl gcc libc6-dev libdbd-mysql-perl \
-        libmail-dkim-perl libnet-ident-perl make gpg gpg-agent python3 python3-pip python3-venv \
+        libmail-dkim-perl libnet-ident-perl make gpg gpg-agent \
+        python3=$PYTHON_VERSION \
+        python3-pip python3-venv \
         pyzor=$PYZOR_VERSION \
         razor=$RAZOR_VERSION \
         imapfilter=$IMAPFILTER_VERSION \
