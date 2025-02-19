@@ -73,4 +73,13 @@ The following Docker Environment Variables can be set:
 | LIST_FOLDERS      | false                  | Print list of mailboxes and folders on startup. Settings this to "only" will terminate the container after listing. |
 | INTERVAL_MINUTES  | 1                      | Interval in minutes in which the spam search should be run                                                          |
 
+## Support
+
+Docker-ISBG is a free docker image powered by other open source. I am not able to provide full support, however if you find any bugs or if you need a new feature you can create an issue.
+If you want to support my work you can do this through my ko-fi page:
+
+https://ko-fi.com/dumpname
+
+## License
+
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg?style=for-the-badge)](http://perso.crans.org/besson/LICENSE.html)
