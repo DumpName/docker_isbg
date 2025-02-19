@@ -14,7 +14,7 @@ Configuration: There are 2 volumes, their content is initialized during containe
 
 To configure your IMAP accounts, create a new .conf file in the `/var/lib/mailaccounts` volume for each IMAP account that you want to be filtered. The files are JSON files, see the example below to learn about mandatory and optional parameters.
 
-The container runs a learning process on startup, so do not leave a configuration with a huge email directory active if you want the container to start in a reasonnable time.
+The container runs a learning process on startup, so do not leave a configuration with a huge email directory active if you want the container to start in a reasonable time.
 
 **Note: As this image needs to store your _password in cleartext_ you should only use it in an environment that you fully trust!** Be aware of the risk that this involves!
 
@@ -62,7 +62,7 @@ The following Docker Environment Variables can be set:
 | CRON_HOUR         | 1                      | hour for daily spam learning                                                                                        |
 | CRON_MINUTE       | 30                     | minute for daily spam learning                                                                                      |
 | TZ                | UTC                    | time zone                                                                                                           |
-| USERNAME          | debian-spamd           | username to run spammassin-deamon                                                                                   |
+| USERNAME          | debian-spamd           | username to run spammassin-daemon                                                                                   |
 | HAM_BATCH_SIZE    | 50                     | max amount of ham messages to learn per learning run                                                                |
 | SPAM_BATCH_SIZE   | 50                     | max amount of spam messages to learn per learning run                                                               |
 | FILTER_BATCH_SIZE | 50                     | max amount of messages to filter per run                                                                            |
