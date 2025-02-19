@@ -71,5 +71,6 @@ The following Docker Environment Variables can be set:
 | PYZOR_SITE        | public.pyzor.org:24441 | pyzor URI                                                                                                           |
 | DETAILED_LOGGING  | false                  | enables verbose logging of isbg/SA                                                                                  |
 | LIST_FOLDERS      | false                  | Print list of mailboxes and folders on startup. Settings this to "only" will terminate the container after listing. |
+| INTERVAL_MINUTES  | 1                      | Interval in minutes in which the spam search should be run                                                          |
 
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg?style=for-the-badge)](http://perso.crans.org/besson/LICENSE.html)
