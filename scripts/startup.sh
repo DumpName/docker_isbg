@@ -1,5 +1,7 @@
 #!/bin/bash
 
+intervalSeconds=$(( INTERVAL_MINUTES * 60 ))
+
 mkdir /root/currentState
 source /usr/local/pythonVenv/bin/activate
 if [ ! -f /root/currentState/startupDone ]; then
@@ -69,7 +71,7 @@ function main {
       learnSpam
     fi
     findSpam
-    sleep $(( 60 - 10#$(date +%S) ))
+    sleep $(( intervalSeconds - 10#$(date +%S) ))
   done
 }
 

@@ -14,7 +14,7 @@ Configuration: There are 2 volumes, their content is initialized during containe
 
 To configure your IMAP accounts, create a new .conf file in the `/var/lib/mailaccounts` volume for each IMAP account that you want to be filtered. The files are JSON files, see the example below to learn about mandatory and optional parameters.
 
-The container runs a learning process on startup, so do not leave a configuration with a huge email directory active if you want the container to start in a reasonnable time.
+The container runs a learning process on startup, so do not leave a configuration with a huge email directory active if you want the container to start in a reasonable time.
 
 **Note: As this image needs to store your _password in cleartext_ you should only use it in an environment that you fully trust!** Be aware of the risk that this involves!
 
@@ -62,7 +62,7 @@ The following Docker Environment Variables can be set:
 | CRON_HOUR         | 1                      | hour for daily spam learning                                                                                        |
 | CRON_MINUTE       | 30                     | minute for daily spam learning                                                                                      |
 | TZ                | UTC                    | time zone                                                                                                           |
-| USERNAME          | debian-spamd           | username to run spammassin-deamon                                                                                   |
+| USERNAME          | debian-spamd           | username to run spammassin-daemon                                                                                   |
 | HAM_BATCH_SIZE    | 50                     | max amount of ham messages to learn per learning run                                                                |
 | SPAM_BATCH_SIZE   | 50                     | max amount of spam messages to learn per learning run                                                               |
 | FILTER_BATCH_SIZE | 50                     | max amount of messages to filter per run                                                                            |
@@ -71,5 +71,15 @@ The following Docker Environment Variables can be set:
 | PYZOR_SITE        | public.pyzor.org:24441 | pyzor URI                                                                                                           |
 | DETAILED_LOGGING  | false                  | enables verbose logging of isbg/SA                                                                                  |
 | LIST_FOLDERS      | false                  | Print list of mailboxes and folders on startup. Settings this to "only" will terminate the container after listing. |
+| INTERVAL_MINUTES  | 1                      | Interval in minutes in which the spam search should be run                                                          |
+
+## Support
+
+Docker-ISBG is a free docker image powered by other open source. I am not able to provide full support, however if you find any bugs or if you need a new feature you can create an issue.
+If you want to support my work you can do this through my ko-fi page:
+
+https://ko-fi.com/dumpname
+
+## License
 
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg?style=for-the-badge)](http://perso.crans.org/besson/LICENSE.html)

@@ -18,7 +18,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     EXTRA_OPTIONS=--nouser-config \
     PYZOR_SITE=public.pyzor.org:24441 \
     DETAILED_LOGGING="false" \
-    LIST_FOLDERS="false"
+    LIST_FOLDERS="false" \
+    INTERVAL_MINUTES=1
 
 #Set Versions of used Software
 ARG SPAMC_VERSION=4.0.0-6

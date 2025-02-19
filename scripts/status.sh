@@ -35,10 +35,10 @@ if [[ $(date +%s) -gt $nextScheduledLearn ]]; then
   exit 1
 fi
 
-nextScheduledSearch=$(($(date -r /root/currentState/spamSearched +%s) + 60*3 ))
+nextScheduledSearch=$(($(date -r /root/currentState/spamSearched +%s) + 60*3*INTERVAL_MINUTES ))
 if [[ $(date +%s) -gt nextScheduledSearch ]]; then
   if [[ $DETAILED_LOGGING == "true" ]]; then
-    >&2 echo "HELTHCHECK: No spam search in last 3 minutes"
+    >&2 echo "HELTHCHECK: No spam search in last $(( 3 * INTERVAL_MINUTES )) minutes"
   fi
   exit 1
 fi
