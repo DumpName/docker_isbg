@@ -75,6 +75,9 @@ function main {
   done
 }
 
+echo "delete isbg old lockfile if present"
+rm -f /var/lib/spamassassin/.cache/isbg/lock
+
 echo "running sa-learn"
 sa-learn --force-expire
 
