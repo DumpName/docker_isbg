@@ -22,8 +22,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     INTERVAL_MINUTES=1
 
 #Set Versions of used Software
-ARG SPAMC_VERSION=4.0.0-6
-ARG SPAMD_VERSION=4.0.0-6
+ARG SPAMC_VERSION=4.0.1-1~deb12u1
+ARG SPAMD_VERSION=4.0.1-1~deb12u1
 ARG DCC_VERSION=2.3.169
 ARG PYZOR_VERSION=1:1.0.0-6
 ARG RAZOR_VERSION=1:2.85-9
@@ -35,7 +35,7 @@ ARG SPAMD_UID=783
 ARG PYTHON_VERSION=3.11.2-1+b1
 
 #Install Dependencies
-RUN apt-get -y update && \
+RUN apt-get update && \
     apt-get -y --no-install-recommends install \
         wget ca-certificates cron curl gcc libc6-dev libdbd-mysql-perl \
         libmail-dkim-perl libnet-ident-perl make gpg gpg-agent \
