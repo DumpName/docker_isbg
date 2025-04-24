@@ -35,7 +35,7 @@ if [ ! -f /root/currentState/startupDone ]; then
   rm /var/lib/spamassassin/.cache/isbg/lock 2> /dev/null
   rm /var/lib/spamassassin/.spamassassin/bayes.lock* 2> /dev/null
   #Create user config file if not existing
-  touch /var/lib/spamassassin/.spamassassin/user_prefs
+#  touch /var/lib/spamassassin/.spamassassin/user_prefs
   touch /root/currentState/startupDone
 fi
 if [[ $LIST_FOLDERS == "true" ]] || [[ $LIST_FOLDERS == "only" ]]; then
