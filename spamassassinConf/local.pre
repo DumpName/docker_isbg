@@ -1,0 +1,1 @@
+loadplugin Mail::SpamAssassin::Plugin::DCC

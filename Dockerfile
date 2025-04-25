@@ -77,9 +77,10 @@ RUN python3 -m pip cache purge && \
     rm -rf /root/.cache/* && \
     rm -rf "/root/dcc-$DCC_VERSION" && \
     rm -f /root/dcc.tar.Z
+RUN echo "CAHCEBUST"
 # add imapfilter files
 COPY imapfilterExec/* /root/imapfilter/
-COPY spamassassinConf/* /usr/share/spamassassin/
+COPY spamassassinConf/* /etc/mail/spamassassin/
 COPY scripts/* /root/
 RUN rm /usr/local/pythonVenv/lib/python3.11/site-packages/isbg/imaputils.py
 RUN chmod +x /root/*.sh
