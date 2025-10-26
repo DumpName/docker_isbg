@@ -7,7 +7,8 @@
 	"spamSubject": "[SPAM?]",
 	"report": "yes",
 	"spamLifetime": 30,
-	"mailLifetime": 30,
+	// IMPORTANT: Using mailLifetime will empty your WHOLE INBOX! Only use, if you really want to!
+	// "mailLifetime": 30,
 	"folders": {
         "inbox": "INBOX",
 		"spam": "Spam",
