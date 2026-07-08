@@ -1,0 +1,54 @@
+# This workflow warns and then closes issues and PRs that have had no activity
+# after the maintainer explicitly marked them as waiting for the author's response.
+
+name: Mark stale issues and pull requests
+
+on:
+  schedule:
+    - cron: '13 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/stale@v5
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+          # Only process items where you explicitly wait for feedback from the author.
+          only-issue-labels: 'needs-response'
+          only-pr-labels: 'needs-response'
+
+          # Timing:
+          # After 14 days without activity, mark as stale.
+          # After another 7 days without activity, close.
+          days-before-issue-stale: 28
+          days-before-pr-stale: 28
+          days-before-issue-close: 14
+          days-before-pr-close: 14
+
+          stale-issue-label: 'no-issue-activity'
+          stale-pr-label: 'no-pr-activity'
+
+          stale-issue-message: |
+            This issue has been marked as stale because it is waiting for feedback from the author and has not had any recent activity.
+            Please note that this project is maintained in my spare time, and I may not always be able to respond quickly. However, in this case I need additional information from you before I can continue.
+            If you are still interested in this issue, please add the requested information or leave a comment. Otherwise, this issue may be closed automatically.
+
+          stale-pr-message: |
+            This pull request has been marked as stale because it is waiting for feedback or changes from the author and has not had any recent activity.
+            Please note that this project is maintained in my spare time, and I may not always be able to review pull requests quickly. However, in this case I need additional feedback or updates from you before I can continue.
+            If you are still interested in this pull request, please respond or push the requested changes. Otherwise, this pull request may be closed automatically.
+          close-issue-message: |
+            This issue has been closed because it was waiting for feedback from the author and there has been no further activity.
+            If you still want to continue, feel free to reopen the issue or create a new one with the requested information.
+          close-pr-message: |
+            This pull request has been closed because it was waiting for feedback or changes from the author and there has been no further activity.
+            If you still want to continue, feel free to reopen the pull request or create a new one with the requested changes.
+          close-issue-reason: 'not_planned'
