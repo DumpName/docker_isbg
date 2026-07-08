@@ -81,9 +81,9 @@ RUN echo "CAHCEBUST"
 COPY imapfilterExec/* /root/imapfilter/
 COPY spamassassinConf/* /etc/mail/spamassassin/
 COPY scripts/* /root/
-RUN rm /usr/local/pythonVenv/lib/python3.11/site-packages/isbg/imaputils.py
+RUN rm /usr/local/pythonVenv/lib/python3.13/site-packages/isbg/imaputils.py
 RUN chmod +x /root/*.sh
-COPY isbg/* /usr/local/pythonVenv/lib/python3.11/site-packages/isbg/
+COPY isbg/* /usr/local/pythonVenv/lib/python3.13/site-packages/isbg/
 
 VOLUME ["/var/lib/spamassassin"]
 VOLUME ["/var/lib/mailaccounts"]
