@@ -22,8 +22,8 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
           # Only process items where you explicitly wait for feedback from the author.
-          only-issue-labels: 'needs-response'
-          only-pr-labels: 'needs-response'
+          only-issue-labels: 'waiting for author'
+          only-pr-labels: 'waiting for author'
 
           # Timing:
           # After 14 days without activity, mark as stale.
@@ -33,8 +33,8 @@ jobs:
           days-before-issue-close: 14
           days-before-pr-close: 14
 
-          stale-issue-label: 'no-issue-activity'
-          stale-pr-label: 'no-pr-activity'
+          stale-issue-label: 'stale'
+          stale-pr-label: 'stale'
 
           stale-issue-message: |
             This issue has been marked as stale because it is waiting for feedback from the author and has not had any recent activity.

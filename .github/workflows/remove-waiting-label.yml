@@ -1,0 +1,78 @@
+name: Remove waiting-for-author label
+
+on:
+  issue_comment:
+    types: [created]
+
+  # Optional: also remove the label when the PR author pushes new commits.
+  pull_request_target:
+    types: [synchronize]
+
+permissions:
+  issues: write
+  pull-requests: read
+
+jobs:
+  remove-label:
+    name: Remove label when author responds
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/github-script@v9
+        with:
+          script: |
+            const labelName = 'Waiting for author';
+            const { owner, repo } = context.repo;
+
+            let issueNumber;
+            let author;
+            let sender;
+
+            if (context.eventName === 'issue_comment') {
+              const issue = context.payload.issue;
+              const comment = context.payload.comment;
+
+              issueNumber = issue.number;
+              author = issue.user.login;
+              sender = comment.user.login;
+            }
+
+            if (context.eventName === 'pull_request_target') {
+              const pr = context.payload.pull_request;
+
+              issueNumber = pr.number;
+              author = pr.user.login;
+              sender = context.payload.sender.login;
+            }
+
+            if (!issueNumber || !author || !sender) {
+              core.info('Could not determine issue/PR author or sender. Skipping.');
+              return;
+            }
+
+            if (sender !== author) {
+              core.info(`Sender ${sender} is not the author ${author}. Skipping.`);
+              return;
+            }
+
+            const labels = await github.rest.issues.listLabelsOnIssue({
+              owner,
+              repo,
+              issue_number: issueNumber
+            });
+
+            const hasLabel = labels.data.some(label => label.name === labelName);
+
+            if (!hasLabel) {
+              core.info(`Label "${labelName}" is not present. Skipping.`);
+              return;
+            }
+
+            await github.rest.issues.removeLabel({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              name: labelName
+            });
+
+            core.info(`Removed label "${labelName}" from #${issueNumber}.`);
