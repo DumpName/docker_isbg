@@ -20,15 +20,14 @@ The container runs a learning process on startup, so do not leave a configuratio
 
 ## Dependencies:
 
-[![Generic badge](https://img.shields.io/badge/debian-bullseye--slim-brightgreen.svg?style=for-the-badge)](https://hub.docker.com/_/debian)
+[![Generic badge](https://img.shields.io/badge/debian-trixie--slim-brightgreen.svg?style=for-the-badge)](https://hub.docker.com/_/debian)
 [![Generic badge](https://img.shields.io/badge/isbg-2.3.1-brightgreen.svg?style=for-the-badge)](https://gitlab.com/isbg/isbg)
-[![Generic badge](https://img.shields.io/badge/imapfilter-1:2.8.1--1-brightgreen.svg?style=for-the-badge)](https://github.com/lefcha/imapfilter)
+[![Generic badge](https://img.shields.io/badge/imapfilter-1:2.8.2+1--0.2+b1-brightgreen.svg?style=for-the-badge)](https://github.com/lefcha/imapfilter)
 [![Generic badge](https://img.shields.io/badge/docopt-0.6.2-brightgreen.svg?style=for-the-badge)](https://github.com/docopt/docopt)
-[![Generic badge](https://img.shields.io/badge/spamd-4.0.0--6-brightgreen.svg?style=for-the-badge)](https://spamassassin.apache.org/)
-[![Generic badge](https://img.shields.io/badge/spamc-4.0.0--6-brightgreen.svg?style=for-the-badge)](https://spamassassin.apache.org/)
+[![Generic badge](https://img.shields.io/badge/spamc-4.0.1--5-brightgreen.svg?style=for-the-badge)](https://spamassassin.apache.org/)
 [![Generic badge](https://img.shields.io/badge/dcc-2.3.169-brightgreen.svg?style=for-the-badge)](https://www.dcc-servers.net/dcc/)
-[![Generic badge](https://img.shields.io/badge/pyzor-1.0.0--6-brightgreen.svg?style=for-the-badge)](https://www.pyzor.org/en/latest/index.html)
-[![Generic badge](https://img.shields.io/badge/razor-2.85--9-brightgreen.svg?style=for-the-badge)](https://de.wikipedia.org/wiki/Vipul%E2%80%99s_Razor)
+[![Generic badge](https://img.shields.io/badge/pyzor-1.1.2--1-brightgreen.svg?style=for-the-badge)](https://www.pyzor.org/en/latest/index.html)
+[![Generic badge](https://img.shields.io/badge/razor-2.85--11-brightgreen.svg?style=for-the-badge)](https://de.wikipedia.org/wiki/Vipul%E2%80%99s_Razor)
 
 
 ## Configuration:

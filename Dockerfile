@@ -63,12 +63,12 @@ RUN mkdir /usr/local/pythonVenv && \
     source /usr/local/pythonVenv/bin/activate && \
     python3 -m pip install isbg==$ISBG_VERSION && \
     mkdir /root/imapfilter/
-# Configure Razor  \
+# Configure Razor
 RUN sed -i 's/^logfile = .*$/logfile = \/dev\/stderr/g' \
      /etc/razor/razor-agent.conf
-# cleanup \
+# cleanup
 RUN python3 -m pip cache purge && \
-    apt-get purge -y binutils libc6-dev libgcc-8-dev python-pip-whl python3-setuptools python3-pkg-resources python3-wheel \
+    apt-get purge -y binutils libgcc-12-dev libc6-dev python-pip-whl python3-setuptools python3-pkg-resources python3-wheel \
      linux-libc-dev make wget && \
     apt-get autoremove -y && \
     apt-get clean && \
@@ -76,8 +76,8 @@ RUN python3 -m pip cache purge && \
     rm -rf /root/.cache/* && \
     rm -rf "/root/dcc-$DCC_VERSION" && \
     rm -f /root/dcc.tar.Z
-RUN echo "CAHCEBUST"
-# add imapfilter files
+
+    # add imapfilter files
 COPY imapfilterExec/* /root/imapfilter/
 COPY spamassassinConf/* /etc/mail/spamassassin/
 COPY scripts/* /root/
