@@ -7,7 +7,6 @@
 	"spamSubject": "[SPAM?]",
 	"report": "yes",
 	"spamLifetime": 30,
-	"mailLifetime": 30,
 	"folders": {
         "inbox": "INBOX",
 		"spam": "Spam",
