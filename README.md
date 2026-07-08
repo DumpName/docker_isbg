@@ -1,6 +1,6 @@
 # This is a Docker Image for the Tool isbg
 
-![Generic badge](https://img.shields.io/badge/user4711%2Fisbg-v1.0-brightgreen?style=for-the-badge)
+![Generic badge](https://img.shields.io/badge/user4711%2Fisbg-v1.2.0-brightgreen?style=for-the-badge)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/user4711/isbg/latest?style=for-the-badge)
 
 
@@ -20,15 +20,14 @@ The container runs a learning process on startup, so do not leave a configuratio
 
 ## Dependencies:
 
-[![Generic badge](https://img.shields.io/badge/debian-bullseye--slim-brightgreen.svg?style=for-the-badge)](https://hub.docker.com/_/debian)
+[![Generic badge](https://img.shields.io/badge/debian-trixie--slim-brightgreen.svg?style=for-the-badge)](https://hub.docker.com/_/debian)
 [![Generic badge](https://img.shields.io/badge/isbg-2.3.1-brightgreen.svg?style=for-the-badge)](https://gitlab.com/isbg/isbg)
-[![Generic badge](https://img.shields.io/badge/imapfilter-1:2.8.1--1-brightgreen.svg?style=for-the-badge)](https://github.com/lefcha/imapfilter)
+[![Generic badge](https://img.shields.io/badge/imapfilter-1:2.8.2+1--0.2+b1-brightgreen.svg?style=for-the-badge)](https://github.com/lefcha/imapfilter)
 [![Generic badge](https://img.shields.io/badge/docopt-0.6.2-brightgreen.svg?style=for-the-badge)](https://github.com/docopt/docopt)
-[![Generic badge](https://img.shields.io/badge/spamd-4.0.0--6-brightgreen.svg?style=for-the-badge)](https://spamassassin.apache.org/)
-[![Generic badge](https://img.shields.io/badge/spamc-4.0.0--6-brightgreen.svg?style=for-the-badge)](https://spamassassin.apache.org/)
+[![Generic badge](https://img.shields.io/badge/spamc-4.0.1--5-brightgreen.svg?style=for-the-badge)](https://spamassassin.apache.org/)
 [![Generic badge](https://img.shields.io/badge/dcc-2.3.169-brightgreen.svg?style=for-the-badge)](https://www.dcc-servers.net/dcc/)
-[![Generic badge](https://img.shields.io/badge/pyzor-1.0.0--6-brightgreen.svg?style=for-the-badge)](https://www.pyzor.org/en/latest/index.html)
-[![Generic badge](https://img.shields.io/badge/razor-2.85--9-brightgreen.svg?style=for-the-badge)](https://de.wikipedia.org/wiki/Vipul%E2%80%99s_Razor)
+[![Generic badge](https://img.shields.io/badge/pyzor-1.1.2--1-brightgreen.svg?style=for-the-badge)](https://www.pyzor.org/en/latest/index.html)
+[![Generic badge](https://img.shields.io/badge/razor-2.85--11-brightgreen.svg?style=for-the-badge)](https://de.wikipedia.org/wiki/Vipul%E2%80%99s_Razor)
 
 
 ## Configuration:
@@ -46,7 +45,7 @@ The following configurations are supported:
 | spamSubject   | optional    |         | Messages with this prefix will automatically sorted to spam without scoring them, useful if your mailbox provider is offering this feature                                                                                                    |
 | report        | optional    | no      | Flag whether or not the `--noreport` for isbg should be set or not. yes = Flag is not set, no (Default) = Flag is set                                                                                                                         |
 | spamLifetime  | optional    |         | Duration in days after which the spam-messages in your spambox should be automatically deleted                                                                                                                                                |
-| mailLifetime  | optional    |         | Duration in days after which the INBOX-messages should be automatically deleted                                                                                                                                                               |
+| mailLifetime  | optional    |         | Duration in days after which the INBOX-messages should be automatically deleted. USE THIS OPTION WITH CAUTION, YOUR MAILBOX WILL BE CLEARED!                                                                                                  |
 | folders.inbox | required    |         | Name of your inbox folder / mailbox. You might want to run the container with `LIST_FOLDERS` set to either `true` or `only` first to identify this.                                                                                           |
 | folders.spam  | required    |         | Name of your spam folder.                                                                                                                                                                                                                     |
 | folders.ham   | optional    |         | Ham folder where you can move wrong spam detections. Spamassassin will learn these in the next learning run as ham. Messages placed here will automatically be moved in your inbox after they have been learned.                              |
@@ -72,6 +71,26 @@ The following Docker Environment Variables can be set:
 | DETAILED_LOGGING  | false                  | enables verbose logging of isbg/SA                                                                                  |
 | LIST_FOLDERS      | false                  | Print list of mailboxes and folders on startup. Settings this to "only" will terminate the container after listing. |
 | INTERVAL_MINUTES  | 1                      | Interval in minutes in which the spam search should be run                                                          |
+
+## Custom SpamAssassin user preferences
+
+SpamAssassin settings such as the required spam score or individual rule scores can be customized by using a `user_prefs` file.
+
+This can be useful if you want to override SpamAssassin scoring settings without changing the default rule files provided by SpamAssassin or this project.
+
+For example, your `user_prefs` file could contain settings like:
+
+```text
+required_score 5.0
+score BAYES_99 9.0
+```
+
+Your `user_prefs` file should be located in your mounted volume `/var/lib/spamassassin/`.
+
+For a detailed explanation of available options, please refer to the official SpamAssassin configuration documentation:
+
+https://spamassassin.apache.org/full/4.0.x/doc/Mail_SpamAssassin_Conf.html
+
 
 ## Support
 

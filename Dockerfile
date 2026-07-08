@@ -1,5 +1,5 @@
 ARG ARCH=
-FROM ${ARCH}debian:bookworm-slim
+FROM ${ARCH}debian:trixie-slim
 ARG BUILD_DATE
 ARG VCS_REF
 LABEL org.label-schema.build-date=$BUILD_DATE \
@@ -22,17 +22,16 @@ ENV DEBIAN_FRONTEND=noninteractive \
     INTERVAL_MINUTES=1
 
 #Set Versions of used Software
-ARG SPAMC_VERSION=4.0.1-1~deb12u1
-ARG SPAMD_VERSION=4.0.1-1~deb12u1
+ARG SPAMC_VERSION=4.0.1-5
+ARG SPAMD_VERSION=4.0.1-5
 ARG DCC_VERSION=2.3.169
-ARG PYZOR_VERSION=1:1.0.0-6
-ARG RAZOR_VERSION=1:2.85-9
-ARG IMAPFILTER_VERSION=1:2.8.1-1
+ARG PYZOR_VERSION=1:1.1.2-1
+ARG RAZOR_VERSION=1:2.85-11
+ARG IMAPFILTER_VERSION=1:2.8.2+1-0.2+b1
 ARG ISBG_VERSION=2.3.1
-ARG DOCPOT_VERSION=0.6.2
 ARG ISBG_SHA=c51ac52864f8275d9db6bf106b0b9aa850216dc4b059e58e069f07206aeac78b
 ARG SPAMD_UID=783
-ARG PYTHON_VERSION=3.11.2-1+b1
+ARG PYTHON_VERSION=3.13.5-1
 
 #Install Dependencies
 RUN apt-get update && \
@@ -64,12 +63,12 @@ RUN mkdir /usr/local/pythonVenv && \
     source /usr/local/pythonVenv/bin/activate && \
     python3 -m pip install isbg==$ISBG_VERSION && \
     mkdir /root/imapfilter/
-# Configure Razor  \
+# Configure Razor
 RUN sed -i 's/^logfile = .*$/logfile = \/dev\/stderr/g' \
      /etc/razor/razor-agent.conf
-# cleanup \
+# cleanup
 RUN python3 -m pip cache purge && \
-    apt-get purge -y binutils libc6-dev libgcc-8-dev python-pip-whl python3-setuptools python3-pkg-resources python3-wheel \
+    apt-get purge -y binutils libgcc-12-dev libc6-dev python-pip-whl python3-setuptools python3-pkg-resources python3-wheel \
      linux-libc-dev make wget && \
     apt-get autoremove -y && \
     apt-get clean && \
@@ -77,14 +76,14 @@ RUN python3 -m pip cache purge && \
     rm -rf /root/.cache/* && \
     rm -rf "/root/dcc-$DCC_VERSION" && \
     rm -f /root/dcc.tar.Z
-RUN echo "CAHCEBUST"
-# add imapfilter files
+
+    # add imapfilter files
 COPY imapfilterExec/* /root/imapfilter/
 COPY spamassassinConf/* /etc/mail/spamassassin/
 COPY scripts/* /root/
-RUN rm /usr/local/pythonVenv/lib/python3.11/site-packages/isbg/imaputils.py
+RUN rm /usr/local/pythonVenv/lib/python3.13/site-packages/isbg/imaputils.py
 RUN chmod +x /root/*.sh
-COPY isbg/* /usr/local/pythonVenv/lib/python3.11/site-packages/isbg/
+COPY isbg/* /usr/local/pythonVenv/lib/python3.13/site-packages/isbg/
 
 VOLUME ["/var/lib/spamassassin"]
 VOLUME ["/var/lib/mailaccounts"]
