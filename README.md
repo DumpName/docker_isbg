@@ -1,6 +1,6 @@
 # This is a Docker Image for the Tool isbg
 
-![Generic badge](https://img.shields.io/badge/user4711%2Fisbg-v1.0-brightgreen?style=for-the-badge)
+![Generic badge](https://img.shields.io/badge/user4711%2Fisbg-v1.1.3-brightgreen?style=for-the-badge)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/user4711/isbg/latest?style=for-the-badge)
 
 
@@ -71,6 +71,26 @@ The following Docker Environment Variables can be set:
 | DETAILED_LOGGING  | false                  | enables verbose logging of isbg/SA                                                                                  |
 | LIST_FOLDERS      | false                  | Print list of mailboxes and folders on startup. Settings this to "only" will terminate the container after listing. |
 | INTERVAL_MINUTES  | 1                      | Interval in minutes in which the spam search should be run                                                          |
+
+## Custom SpamAssassin user preferences
+
+SpamAssassin settings such as the required spam score or individual rule scores can be customized by using a `user_prefs` file.
+
+This can be useful if you want to override SpamAssassin scoring settings without changing the default rule files provided by SpamAssassin or this project.
+
+For example, your `user_prefs` file could contain settings like:
+
+```text
+required_score 5.0
+score BAYES_99 9.0
+```
+
+Your `user_prefs` file should be located in your mounted volume `/var/lib/spamassassin/`.
+
+For a detailed explanation of available options, please refer to the official SpamAssassin configuration documentation:
+
+https://spamassassin.apache.org/full/4.0.x/doc/Mail_SpamAssassin_Conf.html
+
 
 ## Support
 
