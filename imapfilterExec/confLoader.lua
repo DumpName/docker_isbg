@@ -1,8 +1,8 @@
 local json = require "dkjson"
 
-local model = {}
+local confLoader = {}
 
-function model.scandir(dirname)
+function confLoader.scandir(dirname)
         callit = os.tmpname()
         os.execute("ls -1 "..dirname .. "*.conf >"..callit)
         f = io.open(callit,"r")
@@ -23,7 +23,7 @@ function model.scandir(dirname)
         return tabby
 end
 
-function model.readConf( filepath )
+function confLoader.readConf( filepath )
         local file = assert( io.open( filepath, "rb" ) )
         local content = file:read( "*all" )
         file:close( )
@@ -37,12 +37,12 @@ function model.readConf( filepath )
         return jsonConfig
 end
 
-function model.tableHasKey( tab, key )
+function confLoader.tableHasKey( tab, key )
         return tab[ key ] ~= nil
 end
 
-function model.accounts( )
-	conftab = model.scandir("/root/imapfilter/")
+function confLoader.accounts( )
+	conftab = model.scandir( "/root/imapfilter/" )
 	print ( "Found " ..#conftab .." Config Files!" )
 	local accounts = {}
 	local acc = 0
@@ -55,11 +55,33 @@ function model.accounts( )
                         	username = conf.username,
                         	password = conf.password,
                 	}
-               		accounts[acc] = { config = conf, imap = imapObj }
+               		accounts[ acc ] = { config = conf, imap = imapObj }
                 	acc = acc + 1
         	end
 	end
 	return accounts
 end
 
-return model
+function confLoader.getVerboseOption( )
+    if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then
+        return " --verbose"
+    else
+        return ""
+    end
+end
+
+function confLoader.getGmailOption( config )
+    if( confLoader.tableHasKey( config, "isGmail" ) and config.isGmail == "yes" ) then
+        return " --gmail"
+    else
+        return ""
+    end
+end
+
+function confLoader.escape_for_shell( str )
+    str = string.gsub( str, "\\", "\\\\" ) -- Ensure backslashes are literal
+    str = string.gsub( str, "'", "'\\''" ) -- Handle single quotes within the string
+    return "'" .. str .. "'"
+end
+
+return confLoader

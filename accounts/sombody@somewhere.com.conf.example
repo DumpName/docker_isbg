@@ -11,6 +11,7 @@
         "inbox": "INBOX",
 		"spam": "Spam",
 		"sent": "Sent",
-		"ham": "falsePositive"
+		"ham": "falsePositive",
+		"trash": "trash"
 	}
 }
