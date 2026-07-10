@@ -62,4 +62,10 @@ function model.accounts( )
 	return accounts
 end
 
+function model.escape_for_shell( str )
+    str = string.gsub(str, "\\", "\\\\") -- Ensure backslashes are literal
+    str = string.gsub(str, "'", "'\\''") -- Handle single quotes within the string
+    return "'" .. str .. "'"
+end
+
 return model
