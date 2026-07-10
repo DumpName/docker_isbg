@@ -1,6 +1,6 @@
 # This is a Docker Image for the Tool isbg
 
-![Generic badge](https://img.shields.io/badge/user4711%2Fisbg-v1.1.4-brightgreen?style=for-the-badge)
+![Generic badge](https://img.shields.io/badge/user4711%2Fisbg-v1.2-brightgreen?style=for-the-badge)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/user4711/isbg/latest?style=for-the-badge)
 
 Docker container that uses [isbg](https://gitlab.com/isbg/isbg) and [imapfilter](https://github.com/lefcha/imapfilter) to filter out spam from a remote IMAP server.
