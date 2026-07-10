@@ -37,7 +37,7 @@ from .utils import __
 
 from typing import List, TypeVar, Union
 
-Email = TypeVar(email.message.Message)
+Email = TypeVar("email.message.Message")
 Uid = Union[int, str]
 Uids = List[int]
 
