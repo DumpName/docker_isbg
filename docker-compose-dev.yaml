@@ -1,0 +1,20 @@
+services:
+  docker_isbg:
+    pull_policy: build
+    build:
+      context: .
+      dockerfile: Dockerfile
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    environment:
+      TZ: Europe/Berlin
+      CRON_HOUR: 1
+      CRON_MINUTE: 30
+      HAM_BATCH_SIZE: 50
+      SPAM_BATCH_SIZE: 200
+      FILTER_BATCH_SIZE: 50
+      DETAILED_LOGGING: "false"
+      LIST_FOLDERS: "true"
+    volumes:
+      - ./spamassassinVol:/var/lib/spamassassin
+      - ./accounts:/var/lib/mailaccounts:ro

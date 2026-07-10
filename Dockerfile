@@ -84,6 +84,7 @@ COPY scripts/* /root/
 RUN rm /usr/local/pythonVenv/lib/python3.13/site-packages/isbg/imaputils.py
 RUN chmod +x /root/*.sh
 COPY isbg/* /usr/local/pythonVenv/lib/python3.13/site-packages/isbg/
+RUN ls /root/imapfilter -al
 
 VOLUME ["/var/lib/spamassassin"]
 VOLUME ["/var/lib/mailaccounts"]
