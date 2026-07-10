@@ -27,14 +27,14 @@ for i, confFile in ipairs( conftab ) do
         batchSize = os.getenv( "FILTER_BATCH_SIZE" )
         maxMailSize = os.getenv( "MAX_MAIL_SIZE" )
 		if ( confLoader.tableHasKey( config, "spamSubject" ) ) then
-			local spamMessages = imapObj[config.folders.inbox]:contain_subject( config.spamSubject )
+			local spamMessages = imapObj[ config.folders.inbox ]:contain_subject( config.spamSubject )
 			imapObj[ config.folders.inbox ]:move_messages( imapObj[ config.folders.spam ], spamMessages )
-			if (spamMessages==nil)or(#spamMessages==0) then
+			if ( spamMessages == nil ) or ( #spamMessages == 0 ) then
 				print( "0 spams moved to learn" )		
 			end
 		end
 		local report = "--noreport"
-		if ( confLoader.tableHasKey( config, "report" ) and config.report=="yes") then
+		if ( confLoader.tableHasKey( config, "report" ) and config.report == "yes") then
 			report = ""
 		end
 		if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then

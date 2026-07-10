@@ -42,7 +42,7 @@ function model.tableHasKey( tab, key )
 end
 
 function model.accounts( )
-	conftab = model.scandir("/root/imapfilter/")
+	conftab = model.scandir( "/root/imapfilter/" )
 	print ( "Found " ..#conftab .." Config Files!" )
 	local accounts = {}
 	local acc = 0
@@ -55,7 +55,7 @@ function model.accounts( )
                         	username = conf.username,
                         	password = conf.password,
                 	}
-               		accounts[acc] = { config = conf, imap = imapObj }
+               		accounts[ acc ] = { config = conf, imap = imapObj }
                 	acc = acc + 1
         	end
 	end
@@ -63,8 +63,8 @@ function model.accounts( )
 end
 
 function model.escape_for_shell( str )
-    str = string.gsub(str, "\\", "\\\\") -- Ensure backslashes are literal
-    str = string.gsub(str, "'", "'\\''") -- Handle single quotes within the string
+    str = string.gsub( str, "\\", "\\\\" ) -- Ensure backslashes are literal
+    str = string.gsub( str, "'", "'\\''" ) -- Handle single quotes within the string
     return "'" .. str .. "'"
 end
 
