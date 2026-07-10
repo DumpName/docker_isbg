@@ -14,16 +14,8 @@ for i, confFile in ipairs( conftab ) do
 			password = config.password,
 			ssl = "ssl3"
 		}
-        if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then
-			verboseOption = " --verbose"
-		else
-			verboseOption = ""
-		end
-        if( confLoader.tableHasKey( config, "isGmail" ) and config.isGmail == "yes" ) then
-			gmailOption = " --gmail"
-		else
-			gmailOption = ""
-		end
+		verboseOption = confLoader.getVerboseOption( )
+		gmailOption = confLoader.getGmailOption( config )
         batchSize = os.getenv( "FILTER_BATCH_SIZE" )
         maxMailSize = os.getenv( "MAX_MAIL_SIZE" )
 		if ( confLoader.tableHasKey( config, "spamSubject" ) ) then
@@ -51,15 +43,15 @@ for i, confFile in ipairs( conftab ) do
 					.. " \" $USERNAME" )
         end
 		os.execute( "su -c \"" .. settings.isbgPath
-				.. " --imaphost " .. confLoader.escape_for_shell( config.server )
-				.. " --imapuser " .. confLoader.escape_for_shell( config.username )
-				.. " --partialrun " .. batchSize
-				.. " --delete --expunge --spamc --maxsize " .. maxMailSize
-				.. " " .. report
-				.. " --spaminbox " .. confLoader.escape_for_shell( config.folders.spam )
-				.. " --passwdfilename " .. confFile
-				.. verboseOption
-				.. gmailOption
-				.. " \" $USERNAME" )
+					.. " --imaphost " .. confLoader.escape_for_shell( config.server )
+					.. " --imapuser " .. confLoader.escape_for_shell( config.username )
+					.. " --partialrun " .. batchSize
+					.. " --delete --expunge --spamc --maxsize " .. maxMailSize
+					.. " " .. report
+					.. " --spaminbox " .. confLoader.escape_for_shell( config.folders.spam )
+					.. " --passwdfilename " .. confFile
+					.. verboseOption
+					.. gmailOption
+					.. " \" $USERNAME" )
 	end
 end

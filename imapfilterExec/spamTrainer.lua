@@ -18,16 +18,8 @@ for i, confFile in ipairs( conftab ) do
 		}
 		if ( ( not confLoader.tableHasKey( config, "spamHandling" ) ) or config.spamHandling == "yes" ) then
 			print( "Training Spam for "..confFile )
-			if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then
-				verboseOption = " --verbose"
-			else
-				verboseOption = ""
-			end
-			if( confLoader.tableHasKey( config, "isGmail" ) and config.isGmail == "yes" ) then
-				gmailOption = " --gmail"
-			else
-				gmailOption = ""
-			end
+			verboseOption = confLoader.getVerboseOption( )
+			gmailOption = confLoader.getGmailOption( config )
 			batchSize = os.getenv( "SPAM_BATCH_SIZE" )
 			maxMailSize = os.getenv( "MAX_MAIL_SIZE" )
 			if( os.getenv( "DETAILED_LOGGING" ) == "true" ) then
