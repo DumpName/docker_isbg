@@ -32,32 +32,30 @@ jobs:
           platform=${{ matrix.platform }}
           echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Install cosign
-        uses: sigstore/cosign-installer@v3 #v3.1.1
-        with:
-          cosign-release: 'v2.1.1'
+        uses: sigstore/cosign-installer@v4
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v4
       # Set up BuildKit Docker container builder to be able to build
       # multi-platform images and export cache
       # https://github.com/docker/setup-buildx-action
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3 # v3.0.0
+        uses: docker/setup-buildx-action@v4
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: |
             ${{ env.REGISTRY_IMAGE }}
       - name: Build and push Docker image
         id: build-and-push
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: ${{ matrix.platform }}
@@ -76,7 +74,7 @@ jobs:
           digest="${{ steps.build-and-push.outputs.digest }}"
           touch "/tmp/digests/${digest#sha256:}"
       - name: Upload digest
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: digests-${{ env.PLATFORM_PAIR }}
           path: /tmp/digests/*
@@ -96,7 +94,7 @@ jobs:
     steps:
       - name: Checkout
         if: github.ref == 'refs/heads/main'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: nextVersion
         if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
         id: semver
@@ -119,14 +117,14 @@ jobs:
           message: "Release: ${{ steps.semver.outputs.nextStrict }}"
       # Print result using the action output.
       - name: Create Release
-        uses: ncipollo/release-action@v1.12.0
+        uses: ncipollo/release-action@v1.21.0
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         with:
           allowUpdates: true
           draft: false
           makeLatest: true
           name: ${{ steps.semver.outputs.nextStrict }}
-          body: Changelog Contents
+          generateReleaseNotes: true
           tag: ${{ steps.semver.outputs.nextStrict }}
           token: ${{ github.token }}
   merge:
@@ -136,18 +134,18 @@ jobs:
       - build
     steps:
       - name: Download digests
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: /tmp/digests
           pattern: digests-*
           merge-multiple: true
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           flavor: |
             latest=false
@@ -161,7 +159,7 @@ jobs:
             type=semver,pattern=v{{ major }},value=${{ needs.release.outputs.nextStrict }},priority=902,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
             type=raw,value=latest,enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
