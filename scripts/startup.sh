@@ -5,10 +5,10 @@ intervalSeconds=$(( INTERVAL_MINUTES * 60 ))
 mkdir /root/currentState
 source /usr/local/pythonVenv/bin/activate
 if [ ! -f /root/currentState/startupDone ]; then
-  mkdir -p /usr/share/lua/5.2/
-  mv /root/imapfilter/dkjson.lua /usr/share/lua/5.2/
-  mv /root/imapfilter/confLoader.lua /usr/share/lua/5.2/
-  mv /root/imapfilter/imapfilterSettings.lua /usr/share/lua/5.2/
+  mkdir -p /usr/share/lua/5.4/
+  mv /root/imapfilter/dkjson.lua /usr/share/lua/5.4/
+  mv /root/imapfilter/confLoader.lua /usr/share/lua/5.4/
+  mv /root/imapfilter/imapfilterSettings.lua /usr/share/lua/5.4/
   echo "$CRON_MINUTE $CRON_HOUR * * *   root sa-update kill -HUP \`cat /var/run/spamd.pid\`" > /etc/cron.d/sa-update
   #mkdir -p /var/run/dcc
   #/var/dcc/libexec/dccifd -tREP,20 -tCMN,5, -llog -wwhiteclnt -Uuserdirs -SHELO -Smail_host -SSender -SList-ID
