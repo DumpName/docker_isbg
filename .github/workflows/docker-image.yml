@@ -106,7 +106,7 @@ jobs:
           branch: ${{ github.ref }}
           majorList: major
           minorList: feat, feature, minor
-          patchList: fix, bugfix, perf, style, refactor, test, tests
+          patchList: fix, bugfix, perf, style, refactor, test, tests, patch
           skipInvalidTags: true
           prefix: v
       - name: Create Version Tag
