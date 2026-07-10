@@ -99,7 +99,7 @@ for i, confFile in ipairs( conftab ) do
 			if ( confLoader.tableHasKey( config, "spamLifetime" ) ) then
 				local spamMessages = imapObj[ config.folders.spam ]:is_older( config.spamLifetime )
 				if( confLoader.tableHasKey( config, "isGmail" ) and config.isGmail == "yes" ) then
-					imapObj[ config.folders.spam ]:move_messages( imapObj[ "[Gmail]/Trash" ], spamMessages )
+					spamMessages:move_messages( imapObj[ "[Gmail]/Trash" ] )
 				else
 					spamMessages:delete_messages( )
 				end
@@ -108,12 +108,22 @@ for i, confFile in ipairs( conftab ) do
 		end
 		if ( confLoader.tableHasKey( config, "mailLifetime" ) ) then
 			local oldMessages = imapObj[ config.folders.inbox ]:is_older( config.mailLifetime )
-			if( confLoader.tableHasKey( config, "isGmail" ) and config.isGmail == "yes" ) then
-				imapObj[config.folders.inbox]:move_messages( imapObj[ "[Gmail]/Trash" ], oldMessages )
+			if( confLoader.tableHasKey( config, "deleteMail" ) and config.deleteMail == "yes" ) then
+				if( confLoader.tableHasKey( config, "isGmail" ) and config.isGmail == "yes" ) then
+					oldMessages:move_messages( imapObj[ "[Gmail]/Trash" ], oldMessages )
+					print( #oldMessages.. " old mails moved to trash" )
+				else
+					oldMessages:delete_messages( )
+					print( #oldMessages.. " old mails deleted" )
+				end
 			else
-				oldMessages:delete_messages( )
+				if ( confLoader.tableHasKey( config.folders, "trash" ) ) then
+					oldMessages:move_messages( imapObj[ config.folders.trash ] )
+					print( #oldMessages.. " old mails moved to trash" )
+				else
+					print( "No trash folder defined & deleting messages is not allowed! Could not delete ".. #oldMessages .. " old mails." )
+				end
 			end
-			print( #oldMessages.. " old mails deleted" )
 		end
 	end
 end

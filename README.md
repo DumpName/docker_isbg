@@ -44,11 +44,14 @@ The following configurations are supported:
 | spamSubject   | optional    |         | Messages with this prefix will automatically sorted to spam without scoring them, useful if your mailbox provider is offering this feature                                                                                                    |
 | report        | optional    | no      | Flag whether or not the `--noreport` for isbg should be set or not. yes = Flag is not set, no (Default) = Flag is set                                                                                                                         |
 | spamLifetime  | optional    |         | Duration in days after which the spam-messages in your spambox should be automatically deleted                                                                                                                                                |
-| mailLifetime  | optional    |         | Duration in days after which the INBOX-messages should be automatically deleted. USE THIS OPTION WITH CAUTION, YOUR MAILBOX WILL BE CLEARED!                                                                                                  |
+| mailLifetime  | optional    |         | Duration in days after which the INBOX-messages should be automatically deleted. USE THIS OPTION WITH CAUTION, YOUR MAILBOX WILL BE CLEARED! Note: Will only work if either `folders.trash` or `deleteMail` is defined.                       |
+| deleteMail    | optional    | no      | If this is set to true, mails will be deleted instead of moved to the trashfolder if `maillifetime` is defined.                                                                                                                               |
 | folders.inbox | required    |         | Name of your inbox folder / mailbox. You might want to run the container with `LIST_FOLDERS` set to either `true` or `only` first to identify this.                                                                                           |
 | folders.spam  | required    |         | Name of your spam folder.                                                                                                                                                                                                                     |
 | folders.ham   | optional    |         | Ham folder where you can move wrong spam detections. Spamassassin will learn these in the next learning run as ham. Messages placed here will automatically be moved in your inbox after they have been learned.                              |
 | folders.sent  | optional    |         | Your mailbox for sent messages. Spamassassin will use this folder to learn ham messages.                                                                                                                                                      |
+| folders.trash | optional    |         | Your Trash Folder. Messages deleted from your inbox will be moved here unless the environment variable `` is set to true                                                                                                                      |
+
 
 ## Variables:
 
