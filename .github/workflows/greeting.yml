@@ -11,14 +11,14 @@ jobs:
     steps:
       - uses: actions/first-interaction@v3
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          issue-message: |
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          issue_message: |
             Hi there,
             thanks for opening your first issue in this repository! I appreciate you taking the time to report this.
             Please note that this project is maintained in my spare time. I do not work on it full-time, and at the moment my personal life is quite busy, so responses and fixes may take a while.
             If you already have an idea how to solve the problem, a pull request is very welcome. Contributions that include a clear description, testing notes, and a focused fix are especially helpful.
             Thanks for your patience and for helping improve the project!
-          pr-message: |
+          pr_message: |
             Hi there,
             thanks for opening your first pull request in this repository! I really appreciate your contribution.
             Please note that this project is maintained in my spare time. I do not work on it full-time, and at the moment my personal life is quite busy, so review and feedback may take a while.
