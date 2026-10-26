@@ -1,5 +1,5 @@
 ARG ARCH=
-FROM ${ARCH}debian:trixie-slim
+FROM ${ARCH}debian:trixie-20261020-slim
 ARG BUILD_DATE
 ARG VCS_REF
 LABEL org.label-schema.build-date=$BUILD_DATE \
